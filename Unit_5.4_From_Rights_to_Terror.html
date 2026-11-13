@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 5.4: From Rights to Terror</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:#23303d; --ink-soft:#4a5866; --ivory:#f7f4ec; --paper:#fffdf8; --mist:#dfe5ea; --slate:#3e5468;
+    --brass:#a7802f; --brass-soft:#efe2c4; --rule:#c8cfd6; --danger:#8a3324; --ok:#2f6b3a; --focus:#2f6fb0;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--ivory); color:var(--ink); font-family:Inter, "Segoe UI", Arial, sans-serif; font-size:15px; line-height:1.5; }
+  .wrap { max-width:1080px; margin:0 auto; padding:14px 16px 40px; }
+  header h1 { font-family:"Libre Baskerville", Georgia, serif; font-weight:700; font-size:26px; margin:0; color:var(--slate); }
+  header .sub { color:var(--ink-soft); font-size:14px; margin-top:2px; }
+  .banner { background:var(--brass-soft); border:1px solid var(--brass); padding:8px 12px; font-size:13.5px; margin:10px 0; display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; align-items:center; }
+  .banner button { font:inherit; font-size:12.5px; background:#fff; border:1px solid var(--danger); color:var(--danger); padding:4px 8px; cursor:pointer; }
+  nav { display:flex; flex-wrap:wrap; gap:3px; margin:6px 0 0; }
+  nav button { font:inherit; font-size:13.5px; padding:7px 10px; border:1px solid var(--rule); border-bottom:none; background:var(--mist); color:var(--ink); cursor:pointer; }
+  nav button.active { background:var(--paper); font-weight:700; color:var(--slate); border-color:var(--slate); }
+  nav button:disabled { color:#9aa3ab; cursor:not-allowed; }
+  nav button.done::after { content:" \2713"; color:var(--ok); }
+  main { background:var(--paper); border:1px solid var(--slate); padding:16px 18px 20px; }
+  .panel { display:none; } .panel.active { display:block; }
+  .year { font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--brass); font-weight:700; }
+  h2 { font-family:"Libre Baskerville", Georgia, serif; font-size:23px; margin:2px 0 10px; color:var(--slate); font-weight:700; }
+  h3 { font-family:"Libre Baskerville", Georgia, serif; font-size:17px; margin:0 0 6px; color:var(--slate); }
+  .context { background:#f2f4f6; border:1px solid var(--rule); padding:10px 14px; margin-bottom:14px; }
+  .context p { margin:0 0 8px; } .context p:last-child { margin-bottom:0; }
+  .kc { font-family:"Libre Baskerville", Georgia, serif; font-size:16px; background:#fbf8f0; border-left:5px solid var(--brass); padding:10px 14px; margin:8px 0 14px; }
+  .sources { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .source { background:#fbf8f0; border:1px solid var(--rule); border-left:5px solid var(--brass); padding:10px 14px; }
+  .source.wide { grid-column:1 / -1; }
+  .source .lab { font-weight:700; color:var(--brass); font-size:13px; letter-spacing:1px; text-transform:uppercase; }
+  .source .ttl { font-weight:700; font-size:15px; margin:1px 0 2px; }
+  .source .cite { font-size:13px; color:var(--ink-soft); font-style:italic; margin:0 0 8px; }
+  .source .txt p { font-family:"Libre Baskerville", Georgia, serif; font-size:14.5px; line-height:1.6; margin:0 0 8px; }
+  .source .gloss { font-size:12.5px; color:var(--ink-soft); border-top:1px dashed var(--rule); padding-top:5px; margin-top:4px; }
+  .source table { border-collapse:collapse; width:100%; font-size:13.5px; background:#fff; }
+  .source th, .source td { border:1px solid var(--rule); padding:5px 7px; text-align:left; vertical-align:top; }
+  .source th { background:var(--mist); }
+  .source .after { font-size:13.5px; margin-top:8px; }
+  .mini { margin-top:10px; }
+  .weigh { margin-top:18px; border:2px solid var(--slate); background:#fff; padding:12px 14px; }
+  .weigh h3 { margin-bottom:2px; }
+  .weigh .hint { font-size:13px; color:var(--ink-soft); margin-bottom:8px; }
+  .crow { display:grid; grid-template-columns:200px 34px 64px 34px 1fr 70px; gap:6px; align-items:center; margin:5px 0; }
+  .crow .nm { font-weight:600; font-size:14px; line-height:1.25; }
+  .crow .nm small { display:block; font-weight:400; color:var(--ink-soft); font-size:12px; }
+  .crow button { font:inherit; font-weight:700; font-size:16px; width:34px; height:32px; border:1px solid var(--slate); background:#fff; color:var(--slate); cursor:pointer; }
+  .crow input { width:64px; height:32px; font:inherit; font-size:15px; text-align:center; border:1px solid var(--rule); }
+  .crow .trk { background:var(--mist); height:16px; position:relative; }
+  .crow .fil { height:100%; background:var(--c); width:0; transition:width .3s; }
+  .crow .was { font-size:12px; color:var(--ink-soft); }
+  .total { margin-top:8px; font-weight:700; font-size:14.5px; }
+  .total.bad { color:var(--danger); } .total.good { color:var(--ok); }
+  .qs { margin-top:16px; border-top:3px double var(--rule); padding-top:12px; }
+  .q { margin-bottom:12px; }
+  .q label { display:block; font-weight:600; margin-bottom:4px; }
+  textarea { width:100%; min-height:84px; font:inherit; font-size:14.5px; padding:8px 10px; border:1px solid var(--rule); background:#fff; color:var(--ink); resize:vertical; }
+  textarea:focus, input:focus, button:focus-visible { outline:3px solid var(--focus); outline-offset:1px; }
+  .btn { font:inherit; font-weight:600; background:var(--slate); color:#fff; border:none; padding:9px 16px; cursor:pointer; font-size:14.5px; }
+  .btn.brass { background:var(--brass); }
+  .btn:disabled { background:#9aa3ab; cursor:not-allowed; }
+  .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:10px; }
+  .nopaste { font-size:13px; color:var(--danger); font-weight:600; margin-top:4px; min-height:0; }
+  .status { font-size:13px; color:var(--ok); font-weight:600; }
+  .gate { font-size:13px; color:var(--danger); font-weight:600; }
+  .fallback { display:none; margin-top:8px; }
+  .fallback.visible { display:block; }
+  .fallback textarea { min-height:120px; font-size:12.5px; background:#f4f6f8; }
+  .next { margin-top:16px; display:flex; justify-content:flex-end; align-items:center; gap:10px; flex-wrap:wrap; }
+  .intro ul { padding-left:20px; } .intro li { margin-bottom:6px; }
+  .final { background:var(--slate); color:#fff; padding:16px 18px; margin-top:16px; }
+  .final h3 { color:#fff; }
+  .chartbox { border:1px solid var(--rule); background:#fff; padding:10px; }
+  .legend { display:flex; gap:12px; flex-wrap:wrap; font-size:13px; margin-top:6px; }
+  .legend span::before { content:""; display:inline-block; width:12px; height:12px; margin-right:5px; vertical-align:-1px; background:var(--c); }
+  svg { width:100%; height:auto; display:block; }
+  .rank { margin-top:12px; }
+  .rank .r { display:flex; gap:8px; align-items:center; margin:5px 0; }
+  .rank .r .l { width:200px; flex:none; font-weight:600; }
+  .rank .r .t { flex:1; background:var(--mist); height:22px; }
+  .rank .r .f { height:100%; background:var(--c); color:#fff; font-weight:700; font-size:12.5px; display:flex; align-items:center; justify-content:flex-end; padding-right:6px; }
+  @media (max-width:860px) { .sources { grid-template-columns:1fr; } .crow { grid-template-columns:1fr 34px 64px 34px; } .crow .trk, .crow .was { display:none; } .rank .r .l { width:120px; } }
+</style>
+<style>
+  .ev { display:grid; grid-template-columns:34px 120px 1fr 190px; gap:8px; align-items:start; padding:8px 0; border-bottom:1px solid var(--mist); }
+  .ev .n { font-weight:700; color:var(--brass); font-size:16px; }
+  .ev .d { font-size:13px; font-weight:600; color:var(--ink-soft); }
+  .ev .e { font-size:14.5px; }
+  .ev .rate { display:flex; flex-direction:column; gap:3px; }
+  .ev .rate .val { font-size:13px; font-weight:700; color:var(--slate); }
+  .ev .rate .val.unset { color:var(--danger); }
+  .ev input[type=range] { width:100%; accent-color:var(--danger); }
+  .ev .why { grid-column:3 / 5; }
+  .ev .why input { width:100%; font:inherit; font-size:14px; padding:6px 8px; border:1px solid var(--rule); background:#fff; }
+  .sticky { position:sticky; top:0; z-index:2; background:var(--paper); padding:6px 0 8px; border-bottom:2px solid var(--slate); margin-bottom:6px; }
+  select { font:inherit; font-size:14px; padding:6px 8px; border:1px solid var(--rule); background:#fff; color:var(--ink); max-width:100%; }
+  details.src { background:#fbf8f0; border:1px solid var(--rule); border-left:5px solid var(--brass); margin:0 0 10px; }
+  details.src summary { cursor:pointer; padding:8px 12px; font-weight:700; color:var(--slate); }
+  details.src .in { padding:0 14px 10px; }
+  details.src .cite { font-size:13px; color:var(--ink-soft); font-style:italic; margin:0 0 6px; }
+  details.src ul { margin:0; padding-left:20px; } details.src li { margin-bottom:5px; font-size:14px; }
+  details.src table { border-collapse:collapse; width:100%; font-size:13.5px; background:#fff; }
+  details.src th, details.src td { border:1px solid var(--rule); padding:5px 7px; text-align:left; vertical-align:top; }
+  details.src th { background:var(--mist); }
+  .art { border:1px solid var(--rule); background:#fff; padding:12px 14px; margin:12px 0; }
+  .art .atext { font-family:"Libre Baskerville", Georgia, serif; font-size:14.5px; background:#fbf8f0; border-left:4px solid var(--slate); padding:8px 12px; margin:4px 0 10px; }
+  .art .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; align-items:start; }
+  .verdict { display:flex; gap:6px; flex-wrap:wrap; }
+  .verdict label { border:1px solid var(--slate); padding:5px 12px; cursor:pointer; font-weight:600; font-size:14px; background:#fff; }
+  .verdict input { position:absolute; opacity:0; width:1px; height:1px; }
+  .verdict input:checked + span { color:#fff; }
+  .verdict label:has(input:checked) { background:var(--slate); color:#fff; }
+  .verdict label:has(input:focus-visible) { outline:3px solid var(--focus); }
+  .tally { display:flex; gap:10px; flex-wrap:wrap; font-weight:700; font-size:14px; }
+  .tally span { padding:4px 10px; border:1px solid var(--rule); background:#fff; }
+  .tally .k { border-color:var(--ok); color:var(--ok); } .tally .b { border-color:var(--danger); color:var(--danger); } .tally .bo { border-color:var(--brass); color:var(--brass); }
+  .copybox { display:none; margin-top:8px; border:1px dashed var(--slate); background:#f4f6f8; padding:10px 12px; font-size:13.5px; max-height:260px; overflow:auto; }
+  .copybox.visible { display:block; }
+  .copybox p { margin:0 0 6px; }
+  .gloss { font-size:12.5px; color:var(--ink-soft); }
+  .nopaste { min-height:19px; }
+  .wrap { padding-bottom:180px; }
+  html { overflow-anchor:none; }
+  @media (max-width:860px) { .ev { grid-template-columns:30px 1fr; } .ev .e, .ev .rate, .ev .why { grid-column:1 / -1; } .art .grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>From Rights to Terror</h1>
+    <div class="sub">Unit 5.4, Part 2: The French Revolution, 1789 to 1795</div>
+  </header>
+  <div class="banner" role="note">
+    <span><b>Your work saves on this computer and browser only</b> (not another device, not incognito, not if browsing data is cleared). Your Google Doc is the real backup: <b>copy and paste at the end of every tab.</b></span>
+    <span><button id="clearBtn" aria-label="Clear all my answers">Clear my answers</button> <span id="clearMsg" style="font-size:12.5px;color:var(--danger)"></span></span>
+  </div>
+  <nav id="tabs" aria-label="Sections"></nav>
+  <main id="main"></main>
+</div>
+
+<script>
+/* ---------------- content ---------------- */
+const EVENTS = [
+  ["August 1789", "The August Decrees end feudal dues and privileges. The Declaration of the Rights of Man is published."],
+  ["October 1789", "Paris women march to Versailles over bread and bring the royal family to Paris."],
+  ["July 1790", "The Civil Constitution of the Clergy makes priests state employees who must swear an oath."],
+  ["June 1791", "The king tries to flee France and is caught at Varennes."],
+  ["September 1791", "The Constitution of 1791 makes France a constitutional monarchy. Only tax-paying men vote."],
+  ["April 1792", "France declares war on Austria. Prussia joins against France."],
+  ["Aug. to Sept. 1792", "Crowds storm the Tuileries and the monarchy falls. The September Massacres. France becomes a republic."],
+  ["January 1793", "Louis XVI is executed."],
+  ["March to June 1793", "The Vendee revolts. The Committee of Public Safety forms. The Girondins are expelled from the Convention."],
+  ["September 1793", "The Law of Suspects and the Maximum. The Convention declares terror \"the order of the day.\""],
+  ["June 1794", "The Law of 22 Prairial removes defense lawyers and makes death the only sentence. France wins at Fleurus."],
+  ["July 1794", "9 Thermidor: the Convention overthrows Robespierre, and he is executed."],
+  ["1795", "A new constitution creates the Directory. Voting is limited by property."]
+];
+const ARTS = [
+  ["1", "Men are born and remain free and equal in rights. Social distinctions may be founded only upon the general good."],
+  ["7", "No person shall be accused, arrested, or imprisoned except in the cases and according to the forms prescribed by law."],
+  ["9", "As all persons are held innocent until they shall have been declared guilty, if arrest shall be deemed indispensable, all harshness not essential to the securing of the prisoner's person shall be severely repressed by law."],
+  ["10", "No one shall be disquieted on account of his opinions, including his religious views, provided their manifestation does not disturb the public order established by law."],
+  ["11", "The free communication of ideas and opinions is one of the most precious of the rights of man. Every citizen may, accordingly, speak, write, and print with freedom, but shall be responsible for such abuses of this freedom as shall be defined by law."],
+  ["17", "Since property is an inviolable and sacred right, no one shall be deprived thereof except where public necessity, legally determined, shall clearly demand it, and then only on condition that the owner shall have been previously and equitably indemnified."]
+];
+const EVID = [
+  ["Source A", ["New calendar removes Sundays and saints' days", "Notre Dame becomes the Temple of Reason; Paris churches closed", "Statues destroyed; priests pressured to quit", "Refractory priests deported or imprisoned", "Convention reaffirms freedom of worship (Dec. 1793)"]],
+  ["Source B", ["Convention elected by all adult men", "Levee en masse", "Law of Suspects", "General Maximum", "Abolition of slavery", "Laws of Ventose", "Law of 22 Prairial"]],
+  ["Source C", ["Olympe de Gouges arrested and executed", "Condorcet arrested; dies in prison", "Danton executed for urging the Terror to slow down"]],
+  ["Lecture", ["Women's clubs banned (October 1793)", "Something else (name it in your explanation)"]]
+];
+const GROUPS = ["Women", "Catholics", "Enslaved people in the colonies", "The poor of Paris"];
+const KEY = "u54b-terror-v1";
+const TABS = ["Start", "The Radical Thermometer", "The Declaration Audit", "Finish"];
+let store = { r:{}, a:{}, reached:0, view:0 };
+function load() { try { const t = localStorage.getItem(KEY); if (t) store = Object.assign(store, JSON.parse(t)); } catch (e) {} }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
+function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+function A(id) { return (store.a[id] || "").trim(); }
+
+/* ---------------- panels ---------------- */
+function copyBlock(id, label) {
+  return `<div class="row"><button class="btn brass" data-copy="${id}" aria-label="${esc(label)}">${esc(label)}</button><span class="status" id="st${id}" role="status"></span></div>
+    <div class="copybox" id="fb${id}" tabindex="-1" aria-label="Your work to copy"></div>`;
+}
+function nextBlock(i, label) {
+  return `<div class="next"><span class="gate" id="gate${i}"></span><button class="btn" data-go="${i + 1}" id="next${i}">${esc(label)}</button></div>`;
+}
+function evidenceOptions() {
+  return `<option value="">Choose a law or event</option>` + EVID.map(g => `<optgroup label="${esc(g[0])}">${g[1].map(o => `<option>${esc(o + " (" + g[0] + ")")}</option>`).join("")}</optgroup>`).join("");
+}
+function buildPanels() {
+  let h = `<section class="panel intro" data-i="0">
+    <div class="year">Before you start</div><h2>How did a revolution for rights turn into the Terror?</h2>
+    <p>In 1789 the National Assembly promised that men are "born and remain free and equal in rights." By 1794 the government it created had arrested about 300,000 people and executed about 17,000. Today you will measure that change in two ways.</p>
+    <ul>
+      <li><b>The Radical Thermometer:</b> rate 13 events from 1789 to 1795 on how radical they were. Your graph builds as you go. Then find the turning point.</li>
+      <li><b>The Declaration Audit:</b> test six articles of the Declaration of the Rights of Man against the laws and events of 1793 to 1794. Did the Republic keep each promise, break it, or both?</li>
+      <li><b>Type your answers.</b> Pasting into the answer boxes is turned off.</li>
+      <li><b>At the end of each tab,</b> press the copy button and paste into that tab's box in the Website Version tab of your Google Doc. Your answers will paste in bold.</li>
+      <li><b>When you finish,</b> write the Summative Exit Ticket in your Google Doc.</li>
+    </ul>
+    <p><b>Guiding question:</b> Did the Terror betray the Revolution of 1789, or finish it?</p>
+    <div class="next"><button class="btn" data-go="1">Start: The Radical Thermometer</button></div></section>`;
+
+  // Thermometer
+  h += `<section class="panel" data-i="1"><div class="year">Activity 2</div><h2>The Radical Thermometer</h2>
+    <div class="context"><p>Rate each event from <b>1 (calm, moderate)</b> to <b>10 (most radical)</b>. Radical means a bigger break from the old order, and more force used to make it. Move every slider, and give a short reason for each rating. There is no single right graph. Your reasons are what count.</p></div>
+    <div class="sticky"><div class="chartbox"><svg id="tchart" viewBox="0 0 680 160" role="img" aria-label="Line graph of your ratings"></svg></div></div>`;
+  EVENTS.forEach((ev, k) => {
+    const n = k + 1;
+    h += `<div class="ev"><div class="n">${n}</div><div class="d">${esc(ev[0])}</div><div class="e">${esc(ev[1])}</div>
+      <div class="rate"><input type="range" min="1" max="10" step="1" data-r="${n}" aria-label="Rating for event ${n}, 1 to 10"><span class="val" id="rv${n}"></span></div>
+      <div class="why"><input type="text" data-a="why${n}" placeholder="Why that rating?" aria-label="Reason for event ${n} rating"></div></div>`;
+  });
+  h += `<div class="qs">
+    <div class="q"><label for="tp">1. Turning point: which event made the Revolution most radical?</label>
+      <select id="tp" data-a="tp"><option value="">Choose an event</option>${EVENTS.map((e, k) => `<option value="${k + 1}">${k + 1}. ${esc(e[0])}</option>`).join("")}</select></div>
+    <div class="q"><label for="tpx">Explain why it was the turning point, using what happened before and after it.</label><textarea id="tpx" data-a="tpx"></textarea></div>
+    <div class="q"><label for="cool">2. Cooling down: when does your line come back down, and why? Name the events.</label><textarea id="cool" data-a="cool"></textarea></div>
+    <div class="q"><label for="war">3. War or ideas? Look at events 6 to 10. How much of the climb was caused by the war? Support your answer with two events.</label><textarea id="war" data-a="war"></textarea></div>
+    </div>${copyBlock("t", "Copy my Thermometer work")}${nextBlock(1, "Next: The Declaration Audit")}</section>`;
+
+  // Audit
+  h += `<section class="panel" data-i="2"><div class="year">Activity 3</div><h2>The Declaration Audit</h2>
+    <div class="context"><p>Read the three sources first. Then, for each article of the Declaration of the Rights of Man (August 26, 1789), pick a law or event from 1793 to 1794 that relates to it and decide whether the Republic <b>kept</b> the promise, <b>broke</b> it, or <b>both</b>. Not every answer is "broke." Look for rights the Republic expanded, and ask whose rights.</p></div>
+    <details class="src" open><summary>Source A: De-Christianization, 1793 to 1794</summary><div class="in">
+      <p class="cite">Adapted from your teacher's Reign of Terror source packet. The Committee of Public Safety and the Paris radicals linked the Catholic Church with the old monarchy and tried to replace religion with reason and patriotism.</p>
+      <ul><li>October 1793: a new revolutionary calendar starts the years at 1792, the first year of the Republic, and replaces the seven-day week with ten-day weeks, so Sundays and saints' days disappear.</li>
+      <li>November 1793: Notre Dame Cathedral in Paris becomes the "Temple of Reason." The Paris Commune closes the city's churches, and many towns follow.</li>
+      <li>Religious and royal statues are destroyed, priests are banned from wearing clerical dress in public, and priests are pressured to give up the priesthood.</li>
+      <li>Priests who refused the oath to the constitution are deported or imprisoned.</li>
+      <li>December 1793: the Convention reaffirms freedom of worship, but most churches stay closed.</li></ul></div></details>
+    <details class="src" open><summary>Source B: Laws of the National Convention, 1793 to 1794</summary><div class="in">
+      <p class="cite">Adapted from your teacher's Reign of Terror source packet. The Convention was the first French assembly elected by all adult men, without property requirements.</p>
+      <table><thead><tr><th scope="col">Date</th><th scope="col">Law</th><th scope="col">What it did</th></tr></thead><tbody>
+      <tr><td>August 23, 1793</td><th scope="row">Levee en masse</th><td>A draft of all French men to fight foreign armies and internal rebels.</td></tr>
+      <tr><td>September 17, 1793</td><th scope="row">Law of Suspects</th><td>Allowed the arrest of "those who, by their conduct, associations, comments, or writings have shown themselves partisans of tyranny ... and enemies of liberty." Suspects were tried by revolutionary courts and could be sentenced to death.</td></tr>
+      <tr><td>September 29, 1793</td><th scope="row">General Maximum</th><td>Fixed the prices of bread and other essential goods, and fixed wages.</td></tr>
+      <tr><td>February 4, 1794</td><th scope="row">Abolition of slavery</th><td>Abolished slavery in all French colonies and declared that "all men, without distinction of color, residing in the colonies are French citizens."</td></tr>
+      <tr><td>February to March 1794</td><th scope="row">Laws of Ventose</th><td>Allowed the seizure of suspects' property and planned to give it to poor patriots. This was rarely carried out.</td></tr>
+      <tr><td>June 10, 1794</td><th scope="row">Law of 22 Prairial</th><td>Took away the accused's right to a lawyer, allowed trials without witnesses, and made death the only sentence. Before this law, the Paris court had ordered 1,220 death sentences in 13 months. In the 49 days after it, 1,376 people were condemned.</td></tr>
+      </tbody></table></div></details>
+    <details class="src" open><summary>Source C: Three Deaths, 1793 to 1794</summary><div class="in">
+      <p class="cite">Adapted from your teacher's Reign of Terror source packet.</p>
+      <ul><li><b>Olympe de Gouges:</b> a playwright who wrote the Declaration of the Rights of Woman and of the Female Citizen (1791). She supported the Girondins. In July 1793 she was arrested for a poster calling on the French to vote on what kind of government they wanted. Denied a lawyer, she defended herself and was guillotined on November 3, 1793.</li>
+      <li><b>Condorcet:</b> a philosophe and mathematician elected to the Assembly and the Convention. He argued for equal rights for women and the end of slavery, and he voted against executing the king. After he criticized the Jacobins' constitution, the Convention ordered his arrest. He hid for months, was arrested in March 1794, and died in prison two days later.</li>
+      <li><b>Georges Danton:</b> a leading Jacobin who helped overthrow the monarchy in 1792 and sat on the first Committee of Public Safety. By late 1793 he called for the Terror to slow down. Robespierre's allies had him arrested, and he was guillotined on April 5, 1794.</li></ul></div></details>
+    <div class="sticky"><div class="tally" id="tally" aria-live="polite"></div></div>`;
+  ARTS.forEach(a => {
+    const id = "a" + a[0];
+    h += `<div class="art"><h3>Article ${a[0]}</h3><div class="atext">${esc(a[1])}</div>
+      <div class="grid"><div><label for="${id}e" style="font-weight:600;display:block;margin-bottom:4px">Law or event, 1793 to 1794</label><select id="${id}e" data-a="${id}e">${evidenceOptions()}</select></div>
+      <div><span style="font-weight:600;display:block;margin-bottom:4px" id="${id}vl">Did the Republic keep it?</span><div class="verdict" role="radiogroup" aria-labelledby="${id}vl">
+        ${["Kept", "Broke", "Both"].map(v => `<label><input type="radio" name="${id}v" value="${v}" data-a="${id}v"><span>${v}</span></label>`).join("")}</div></div></div>
+      <div class="q" style="margin-top:8px"><label for="${id}x">Explain: how does that law or event keep or break this article?</label><textarea id="${id}x" data-a="${id}x" style="min-height:64px"></textarea></div></div>`;
+  });
+  h += `<p class="gloss">Disquieted = troubled or punished. Indemnified = paid back. Translation of the Declaration from the Avalon Project, Yale Law School.</p>
+    <div class="qs">
+    <div class="q"><label for="grp">Whose rights? Pick one group.</label><select id="grp" data-a="grp"><option value="">Choose a group</option>${GROUPS.map(g => `<option>${esc(g)}</option>`).join("")}</select></div>
+    <div class="q"><label for="grpx">Did the Republic expand or shrink that group's rights between 1789 and 1794? Use evidence from the sources.</label><textarea id="grpx" data-a="grpx"></textarea></div>
+    <div class="q"><label for="clm">Claim: did the Terror betray the Revolution of 1789, or finish it?</label><select id="clm" data-a="clm"><option value="">Choose your claim</option><option>It betrayed 1789</option><option>It finished 1789</option><option>Both: it kept some promises and broke others</option></select></div>
+    <div class="q"><label for="clmx">Support your claim with two articles from your audit.</label><textarea id="clmx" data-a="clmx"></textarea></div>
+    </div>${copyBlock("d", "Copy my Audit work")}${nextBlock(2, "Next: Finish")}</section>`;
+
+  // Finish
+  h += `<section class="panel" data-i="3"><div class="year">Finish</div><h2>Your verdict</h2>
+    <div class="chartbox"><svg id="fchart" viewBox="0 0 680 230" role="img" aria-label="Your final radical thermometer graph"></svg></div>
+    <div id="fsum" style="margin-top:12px"></div>
+    <div class="final"><h3>Last step: the Summative Exit Ticket</h3>
+      <p>Go to the <b>Summative Exit Ticket</b> tab in your Google Doc. Read the excerpt from Robespierre's speech and type your answers to parts a, b, and c directly into that tab.</p>
+      <p>Before you go, check that you pasted both tabs into the Website Version tab of your doc.</p></div></section>`;
+  document.getElementById("main").innerHTML = h;
+}
+
+/* ---------------- chart ---------------- */
+function drawChart(id) {
+  const svg = document.getElementById(id); if (!svg) return;
+  const W = 680, H = +svg.getAttribute("viewBox").split(" ")[3], L = 36, Rr = 14, T = 12, B = 30, n = EVENTS.length;
+  const x = k => L + (W - L - Rr) * (k - 1) / (n - 1), y = v => T + (H - T - B) * (10 - v) / 9;
+  let g = "";
+  for (let v = 1; v <= 10; v++) g += `<line x1="${L}" y1="${y(v)}" x2="${W - Rr}" y2="${y(v)}" stroke="${v === 1 || v === 10 ? "#c8cfd6" : "#eef1f3"}"></line>${v % 3 === 1 || v === 10 ? `<text x="${L - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="#4a5866">${v}</text>` : ""}`;
+  for (let k = 1; k <= n; k++) g += `<text x="${x(k)}" y="${H - 10}" text-anchor="middle" font-size="11" fill="#4a5866">${k}</text>`;
+  g += `<text x="${L}" y="${T - 2}" font-size="10" fill="#4a5866">more radical</text>`;
+  const pts = []; for (let k = 1; k <= n; k++) if (store.r[k]) pts.push([x(k), y(store.r[k]), k]);
+  if (pts.length > 1) g += `<polyline points="${pts.map(p => p[0] + "," + p[1]).join(" ")}" fill="none" stroke="#8a3324" stroke-width="2.5"></polyline>`;
+  const tp = +store.a.tp;
+  pts.forEach(p => { g += `<circle cx="${p[0]}" cy="${p[1]}" r="${p[2] === tp ? 8 : 4.5}" fill="${p[2] === tp ? "#a7802f" : "#8a3324"}" stroke="#fff" stroke-width="1.5"></circle>`; });
+  if (!pts.length) g += `<text x="${W / 2}" y="${H / 2}" text-anchor="middle" font-size="14" fill="#4a5866">Move the sliders below. Your graph appears here.</text>`;
+  svg.innerHTML = g;
+  svg.setAttribute("aria-label", "Your ratings: " + (pts.length ? pts.map(p => "event " + p[2] + " is " + store.r[p[2]]).join(", ") : "none yet"));
+}
+function renderRates() {
+  for (let k = 1; k <= EVENTS.length; k++) {
+    const el = document.getElementById("rv" + k), inp = document.querySelector(`[data-r="${k}"]`);
+    if (store.r[k]) { el.textContent = "Rating: " + store.r[k]; el.className = "val"; inp.value = store.r[k]; }
+    else { el.textContent = "Not rated yet"; el.className = "val unset"; inp.value = 5; }
+  }
+  drawChart("tchart");
+}
+function renderTally() {
+  const c = { Kept:0, Broke:0, Both:0 };
+  ARTS.forEach(a => { const v = A("a" + a[0] + "v"); if (c[v] !== undefined) c[v]++; });
+  const el = document.getElementById("tally");
+  if (el) el.innerHTML = `<span class="k">Kept: ${c.Kept}</span><span class="b">Broke: ${c.Broke}</span><span class="bo">Both: ${c.Both}</span><span>Unanswered: ${6 - c.Kept - c.Broke - c.Both}</span>`;
+  return c;
+}
+
+/* ---------------- gates ---------------- */
+function tabDone(i) {
+  if (i === 1) {
+    for (let k = 1; k <= EVENTS.length; k++) if (!store.r[k] || A("why" + k).length < 8) return false;
+    return !!A("tp") && A("tpx").length >= 25 && A("cool").length >= 20 && A("war").length >= 25;
+  }
+  if (i === 2) {
+    for (const a of ARTS) { const id = "a" + a[0]; if (!A(id + "e") || !A(id + "v") || A(id + "x").length >= 0 && A(id + "x").length < 15) return false; }
+    return !!A("grp") && A("grpx").length >= 25 && !!A("clm") && A("clmx").length >= 30;
+  }
+  return false;
+}
+function gateMsg(i) {
+  if (i === 1) {
+    const un = []; for (let k = 1; k <= EVENTS.length; k++) if (!store.r[k]) un.push(k);
+    const nr = []; for (let k = 1; k <= EVENTS.length; k++) if (A("why" + k).length < 8) nr.push(k);
+    if (un.length) return "Rate every event first. Still unrated: " + un.join(", ") + ".";
+    if (nr.length) return "Give a reason for every rating. Still missing: " + nr.join(", ") + ".";
+    return "Answer all three questions to unlock the next tab.";
+  }
+  if (i === 2) {
+    const miss = ARTS.filter(a => { const id = "a" + a[0]; return !A(id + "e") || !A(id + "v") || A(id + "x").length < 15; }).map(a => a[0]);
+    if (miss.length) return "Finish every article (law, verdict, and explanation). Still open: Article " + miss.join(", ") + ".";
+    return "Finish the two questions at the bottom to unlock the next tab.";
+  }
+  return "";
+}
+function updateGate() {
+  [1, 2].forEach(i => {
+    const b = document.getElementById("next" + i), g = document.getElementById("gate" + i); if (!b) return;
+    const ok = tabDone(i); b.disabled = !ok; g.textContent = ok ? "" : gateMsg(i);
+  });
+}
+function renderTabs() {
+  const nav = document.getElementById("tabs");
+  if (nav.children.length !== TABS.length) nav.innerHTML = TABS.map((t, i) => `<button data-tab="${i}" aria-label="${esc(t)}">${esc(t)}</button>`).join("");
+  [...nav.children].forEach((btn, i) => {
+    btn.classList.toggle("active", i === store.view);
+    btn.classList.toggle("done", tabDone(i));
+    btn.disabled = i > store.reached;
+  });
+}
+function show(i) {
+  if (i > store.reached) store.reached = i;
+  store.view = i; save(); renderTabs();
+  document.querySelectorAll(".panel").forEach(p => p.classList.toggle("active", +p.dataset.i === i));
+  if (i === 1) renderRates();
+  if (i === 2) renderTally();
+  if (i === 3) renderFinish();
+  window.scrollTo(0, 0);
+}
+function renderFinish() {
+  drawChart("fchart");
+  const c = renderTally();
+  const tp = +store.a.tp;
+  document.getElementById("fsum").innerHTML = `<p><b>Your turning point:</b> ${tp ? esc(tp + ". " + EVENTS[tp - 1][0] + ": " + EVENTS[tp - 1][1]) : "not chosen"}</p>
+    <p><b>Your audit:</b> Kept ${c.Kept}, Broke ${c.Broke}, Both ${c.Both}.</p>
+    <p><b>Your claim:</b> ${A("clm") ? esc(A("clm")) : "not chosen"}</p>`;
+}
+
+/* ---------------- copy (student answers in bold) ---------------- */
+function line(label, answer) { return { label, answer: answer || "(no answer yet)" }; }
+function buildCopy(w) {
+  const L = [];
+  if (w === "t") {
+    L.push({ head: "The Radical Thermometer" });
+    EVENTS.forEach((e, k) => { const n = k + 1; L.push(line(`${n}. ${e[0]}: rating `, (store.r[n] ? String(store.r[n]) : "") + (A("why" + n) ? ". Why: " + A("why" + n) : ""))); });
+    const tp = +store.a.tp;
+    L.push(line("Turning point: ", tp ? tp + ". " + EVENTS[tp - 1][0] : ""));
+    L.push(line("Why it was the turning point: ", A("tpx")));
+    L.push(line("Cooling down: ", A("cool")));
+    L.push(line("War or ideas: ", A("war")));
+  } else {
+    L.push({ head: "The Declaration Audit" });
+    ARTS.forEach(a => { const id = "a" + a[0]; L.push(line(`Article ${a[0]}: `, [A(id + "e"), A(id + "v"), A(id + "x")].filter(Boolean).join(". "))); });
+    const c = renderTally();
+    L.push(line("Tally: ", `Kept ${c.Kept}, Broke ${c.Broke}, Both ${c.Both}`));
+    L.push(line("Whose rights: ", [A("grp"), A("grpx")].filter(Boolean).join(". ")));
+    L.push(line("Claim: ", [A("clm"), A("clmx")].filter(Boolean).join(". ")));
+  }
+  const html = L.map(o => o.head ? `<p><u>${esc(o.head)}</u></p>` : `<p>${esc(o.label)}<b>${esc(o.answer)}</b></p>`).join("");
+  const text = L.map(o => o.head ? o.head : o.label + o.answer).join("\n");
+  return { html, text };
+}
+function copyOut(w) {
+  const { html, text } = buildCopy(w);
+  const status = document.getElementById("st" + w), box = document.getElementById("fb" + w);
+  function ok() { status.textContent = "Copied. Paste into your doc."; setTimeout(() => status.textContent = "", 4000); }
+  function tryExec() {
+    let done = false;
+    const h = e => { try { e.clipboardData.setData("text/html", html); e.clipboardData.setData("text/plain", text); e.preventDefault(); done = true; } catch (err) {} };
+    document.addEventListener("copy", h, { once:true });
+    try { document.execCommand("copy"); } catch (e) {}
+    document.removeEventListener("copy", h);
+    if (done) ok();
+    return done;
+  }
+  function manual() {
+    box.innerHTML = `<p style="font-weight:600">Select everything in this box and copy it (Cmd+C or Ctrl+C), then paste into your doc.</p><div>${html}</div>`;
+    box.classList.add("visible");
+    const r = document.createRange(); r.selectNodeContents(box.lastElementChild);
+    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    status.textContent = "Select and copy below.";
+  }
+  if (navigator.clipboard && window.ClipboardItem && navigator.clipboard.write) {
+    try {
+      const item = new ClipboardItem({ "text/html": new Blob([html], { type:"text/html" }), "text/plain": new Blob([text], { type:"text/plain" }) });
+      navigator.clipboard.write([item]).then(ok).catch(() => { if (!tryExec()) manual(); });
+    } catch (e) { if (!tryExec()) manual(); }
+  } else if (!tryExec()) manual();
+}
+
+/* ---------------- events ---------------- */
+document.addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.tab !== undefined) { show(+b.dataset.tab); return; }
+  if (b.dataset.go !== undefined) { if (!b.disabled) show(+b.dataset.go); return; }
+  if (b.dataset.copy !== undefined) { copyOut(b.dataset.copy); return; }
+});
+function onField(t) {
+  if (t.dataset.r) { store.r[t.dataset.r] = +t.value; save(); renderRates(); updateGate(); renderTabs(); return; }
+  if (t.dataset.a) {
+    if (t.type === "radio") { if (t.checked) store.a[t.dataset.a] = t.value; } else store.a[t.dataset.a] = t.value;
+    save(); if (t.dataset.a === "tp") drawChart("tchart"); if (/^a\d+v$/.test(t.dataset.a)) renderTally(); updateGate(); renderTabs();
+  }
+}
+document.addEventListener("input", e => onField(e.target));
+document.addEventListener("change", e => onField(e.target));
+/* no pasting: students must type */
+function blockPaste(e) {
+  const t = e.target;
+  if (!t || !t.dataset || !t.dataset.a) return;
+  e.preventDefault();
+  let n = t.parentElement.querySelector(".nopaste");
+  if (!n) { n = document.createElement("div"); n.className = "nopaste"; n.setAttribute("role", "status"); t.parentElement.appendChild(n); }
+  n.textContent = "Pasting is turned off. Type your answer in your own words.";
+  clearTimeout(n._t); n._t = setTimeout(() => n.textContent = "", 4000);
+}
+["paste", "drop"].forEach(ev => document.addEventListener(ev, blockPaste, true));
+document.addEventListener("beforeinput", e => { if (e.inputType && /^insertFrom(Paste|Drop)/.test(e.inputType)) blockPaste(e); }, true);
+let armed = false;
+document.getElementById("clearBtn").addEventListener("click", () => {
+  const m = document.getElementById("clearMsg");
+  if (!armed) { armed = true; m.textContent = "Press again to erase everything on this computer."; setTimeout(() => { armed = false; m.textContent = ""; }, 5000); return; }
+  armed = false; m.textContent = "Cleared."; store = { r:{}, a:{}, reached:0, view:0 }; save(); init();
+});
+function restore() {
+  document.querySelectorAll("[data-a]").forEach(el => {
+    const v = store.a[el.dataset.a]; if (v === undefined) return;
+    if (el.type === "radio") el.checked = el.value === v; else el.value = v;
+  });
+}
+function init() { buildPanels(); restore(); updateGate(); show(Math.min(store.view || 0, store.reached || 0)); }
+load(); init();
+</script>
+</body>
+</html>
