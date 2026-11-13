@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 5.4: Why 1789?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:#23303d; --ink-soft:#4a5866; --ivory:#f7f4ec; --paper:#fffdf8; --mist:#dfe5ea; --slate:#3e5468;
+    --brass:#a7802f; --brass-soft:#efe2c4; --rule:#c8cfd6; --danger:#8a3324; --ok:#2f6b3a; --focus:#2f6fb0;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--ivory); color:var(--ink); font-family:Inter, "Segoe UI", Arial, sans-serif; font-size:15px; line-height:1.5; }
+  .wrap { max-width:1080px; margin:0 auto; padding:14px 16px 40px; }
+  header h1 { font-family:"Libre Baskerville", Georgia, serif; font-weight:700; font-size:26px; margin:0; color:var(--slate); }
+  header .sub { color:var(--ink-soft); font-size:14px; margin-top:2px; }
+  .banner { background:var(--brass-soft); border:1px solid var(--brass); padding:8px 12px; font-size:13.5px; margin:10px 0; display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; align-items:center; }
+  .banner button { font:inherit; font-size:12.5px; background:#fff; border:1px solid var(--danger); color:var(--danger); padding:4px 8px; cursor:pointer; }
+  nav { display:flex; flex-wrap:wrap; gap:3px; margin:6px 0 0; }
+  nav button { font:inherit; font-size:13.5px; padding:7px 10px; border:1px solid var(--rule); border-bottom:none; background:var(--mist); color:var(--ink); cursor:pointer; }
+  nav button.active { background:var(--paper); font-weight:700; color:var(--slate); border-color:var(--slate); }
+  nav button:disabled { color:#9aa3ab; cursor:not-allowed; }
+  nav button.done::after { content:" \2713"; color:var(--ok); }
+  main { background:var(--paper); border:1px solid var(--slate); padding:16px 18px 20px; }
+  .panel { display:none; } .panel.active { display:block; }
+  .year { font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--brass); font-weight:700; }
+  h2 { font-family:"Libre Baskerville", Georgia, serif; font-size:23px; margin:2px 0 10px; color:var(--slate); font-weight:700; }
+  h3 { font-family:"Libre Baskerville", Georgia, serif; font-size:17px; margin:0 0 6px; color:var(--slate); }
+  .context { background:#f2f4f6; border:1px solid var(--rule); padding:10px 14px; margin-bottom:14px; }
+  .context p { margin:0 0 8px; } .context p:last-child { margin-bottom:0; }
+  .kc { font-family:"Libre Baskerville", Georgia, serif; font-size:16px; background:#fbf8f0; border-left:5px solid var(--brass); padding:10px 14px; margin:8px 0 14px; }
+  .sources { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .source { background:#fbf8f0; border:1px solid var(--rule); border-left:5px solid var(--brass); padding:10px 14px; }
+  .source.wide { grid-column:1 / -1; }
+  .source .lab { font-weight:700; color:var(--brass); font-size:13px; letter-spacing:1px; text-transform:uppercase; }
+  .source .ttl { font-weight:700; font-size:15px; margin:1px 0 2px; }
+  .source .cite { font-size:13px; color:var(--ink-soft); font-style:italic; margin:0 0 8px; }
+  .source .txt p { font-family:"Libre Baskerville", Georgia, serif; font-size:14.5px; line-height:1.6; margin:0 0 8px; }
+  .source .gloss { font-size:12.5px; color:var(--ink-soft); border-top:1px dashed var(--rule); padding-top:5px; margin-top:4px; }
+  .source table { border-collapse:collapse; width:100%; font-size:13.5px; background:#fff; }
+  .source th, .source td { border:1px solid var(--rule); padding:5px 7px; text-align:left; vertical-align:top; }
+  .source th { background:var(--mist); }
+  .source .after { font-size:13.5px; margin-top:8px; }
+  .mini { margin-top:10px; }
+  .weigh { margin-top:18px; border:2px solid var(--slate); background:#fff; padding:12px 14px; }
+  .weigh h3 { margin-bottom:2px; }
+  .weigh .hint { font-size:13px; color:var(--ink-soft); margin-bottom:8px; }
+  .crow { display:grid; grid-template-columns:200px 34px 64px 34px 1fr 70px; gap:6px; align-items:center; margin:5px 0; }
+  .crow .nm { font-weight:600; font-size:14px; line-height:1.25; }
+  .crow .nm small { display:block; font-weight:400; color:var(--ink-soft); font-size:12px; }
+  .crow button { font:inherit; font-weight:700; font-size:16px; width:34px; height:32px; border:1px solid var(--slate); background:#fff; color:var(--slate); cursor:pointer; }
+  .crow input { width:64px; height:32px; font:inherit; font-size:15px; text-align:center; border:1px solid var(--rule); }
+  .crow .trk { background:var(--mist); height:16px; position:relative; }
+  .crow .fil { height:100%; background:var(--c); width:0; transition:width .3s; }
+  .crow .was { font-size:12px; color:var(--ink-soft); }
+  .total { margin-top:8px; font-weight:700; font-size:14.5px; }
+  .total.bad { color:var(--danger); } .total.good { color:var(--ok); }
+  .qs { margin-top:16px; border-top:3px double var(--rule); padding-top:12px; }
+  .q { margin-bottom:12px; }
+  .q label { display:block; font-weight:600; margin-bottom:4px; }
+  textarea { width:100%; min-height:84px; font:inherit; font-size:14.5px; padding:8px 10px; border:1px solid var(--rule); background:#fff; color:var(--ink); resize:vertical; }
+  textarea:focus, input:focus, button:focus-visible { outline:3px solid var(--focus); outline-offset:1px; }
+  .btn { font:inherit; font-weight:600; background:var(--slate); color:#fff; border:none; padding:9px 16px; cursor:pointer; font-size:14.5px; }
+  .btn.brass { background:var(--brass); }
+  .btn:disabled { background:#9aa3ab; cursor:not-allowed; }
+  .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:10px; }
+  .nopaste { font-size:13px; color:var(--danger); font-weight:600; margin-top:4px; min-height:0; }
+  .status { font-size:13px; color:var(--ok); font-weight:600; }
+  .gate { font-size:13px; color:var(--danger); font-weight:600; }
+  .fallback { display:none; margin-top:8px; }
+  .fallback.visible { display:block; }
+  .fallback { border:1px dashed var(--slate); background:#f4f6f8; padding:10px 12px; font-size:13.5px; max-height:260px; overflow:auto; }
+  .fallback p { margin:0 0 6px; }
+  html { overflow-anchor:none; }
+  .wrap { padding-bottom:180px; }
+  .nopaste { min-height:19px; }
+  .next { margin-top:16px; display:flex; justify-content:flex-end; align-items:center; gap:10px; flex-wrap:wrap; }
+  .intro ul { padding-left:20px; } .intro li { margin-bottom:6px; }
+  .final { background:var(--slate); color:#fff; padding:16px 18px; margin-top:16px; }
+  .final h3 { color:#fff; }
+  .chartbox { border:1px solid var(--rule); background:#fff; padding:10px; }
+  .legend { display:flex; gap:12px; flex-wrap:wrap; font-size:13px; margin-top:6px; }
+  .legend span::before { content:""; display:inline-block; width:12px; height:12px; margin-right:5px; vertical-align:-1px; background:var(--c); }
+  svg { width:100%; height:auto; display:block; }
+  .rank { margin-top:12px; }
+  .rank .r { display:flex; gap:8px; align-items:center; margin:5px 0; }
+  .rank .r .l { width:200px; flex:none; font-weight:600; }
+  .rank .r .t { flex:1; background:var(--mist); height:22px; }
+  .rank .r .f { height:100%; background:var(--c); color:#fff; font-weight:700; font-size:12.5px; display:flex; align-items:center; justify-content:flex-end; padding-right:6px; }
+  @media (max-width:860px) { .sources { grid-template-columns:1fr; } .crow { grid-template-columns:1fr 34px 64px 34px; } .crow .trk, .crow .was { display:none; } .rank .r .l { width:120px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Why 1789?</h1>
+    <div class="sub">Unit 5.4: Weighing the causes of the French Revolution</div>
+  </header>
+  <div class="banner" role="note">
+    <span><b>Your work saves on this computer and browser only</b> (not another device, not incognito, not if browsing data is cleared). Your Google Doc is the real backup: <b>copy and paste at the end of every tab.</b></span>
+    <span><button id="clearBtn" aria-label="Clear all my answers">Clear my answers</button> <span id="clearMsg" style="font-size:12.5px;color:var(--danger)"></span></span>
+  </div>
+  <nav id="tabs" aria-label="Sections"></nav>
+  <main id="main"></main>
+</div>
+
+<script>
+const C = {
+ "title": "Why 1789? Weighing the Causes of the French Revolution",
+ "sub": "Unit 5.4: The French Revolution (causes and the events of 1789)",
+ "causes": [
+  {
+   "id": "soc",
+   "name": "Privilege",
+   "long": "Privilege and the estate system",
+   "kind": "long-term social",
+   "color": "#7A2A1E"
+  },
+  {
+   "id": "pol",
+   "name": "The monarchy",
+   "long": "An absolute monarchy that could not reform",
+   "kind": "long-term political",
+   "color": "#3e5468"
+  },
+  {
+   "id": "ide",
+   "name": "Ideas",
+   "long": "Enlightenment ideas and the American example",
+   "kind": "Enlightenment ideas",
+   "color": "#6b4c9a"
+  },
+  {
+   "id": "mon",
+   "name": "Debt",
+   "long": "Royal debt and bankruptcy",
+   "kind": "short-term fiscal crisis",
+   "color": "#2f6b3a"
+  },
+  {
+   "id": "brd",
+   "name": "Bread",
+   "long": "Bad harvests and hunger",
+   "kind": "short-term economic crisis",
+   "color": "#c0761f"
+  }
+ ],
+ "kc": "The French Revolution resulted from a combination of long-term social and political causes, as well as Enlightenment ideas, exacerbated by short-term fiscal and economic crises.",
+ "waves": [
+  {
+   "id": "w1",
+   "tab": "Wave 1: The Estates",
+   "short": "The Estates",
+   "context": [
+    "France in 1789 was divided into three <b>estates</b>, or orders. The <b>First Estate</b> was the clergy, the <b>Second Estate</b> was the nobility, and the <b>Third Estate</b> was everyone else: wealthy merchants and lawyers (the <b>bourgeoisie</b>), city workers, and the peasants who made up most of the country.",
+    "Each estate had different legal rights. The first two were <b>privileged orders</b>: they were exempt from the <b>taille</b>, the main direct tax, and nobles collected <b>feudal dues</b> from peasants on their lands. The Third Estate carried most of the tax burden."
+   ],
+   "sources": [
+    {
+     "label": "1A",
+     "title": "The three estates by the numbers",
+     "kind": "data",
+     "cite": "Approximate figures for this activity, summarizing the estate system as described in your textbook and class notes.",
+     "table": [
+      [
+       "",
+       "Share of population",
+       "Main direct tax (the taille)",
+       "Deputies at the Estates-General, 1789",
+       "Votes if voting by order"
+      ],
+      [
+       "First Estate (clergy)",
+       "less than 1%",
+       "exempt (the Church gave the king a voluntary \"free gift\" instead)",
+       "about 300",
+       "1"
+      ],
+      [
+       "Second Estate (nobles)",
+       "about 1 to 2%",
+       "exempt (nobles paid some newer taxes, such as the vingtieme, at low rates)",
+       "about 300",
+       "1"
+      ],
+      [
+       "Third Estate (everyone else)",
+       "about 97 to 98%",
+       "paid it, along with the tithe to the Church and feudal dues to lords",
+       "about 600",
+       "1"
+      ]
+     ]
+    },
+    {
+     "label": "1B",
+     "title": "An English traveler meets a peasant woman",
+     "kind": "primary",
+     "cite": "Arthur Young, an English agricultural writer, describing a conversation in eastern France on July 12, 1789. From Travels in France during the Years 1787, 1788, 1789, published in 1792.",
+     "text": [
+      "Walking up a long hill, to ease my mare, I was joined by a poor woman, who complained of the times, and that it was a sad country; demanding her reasons, she said her husband had but a morsel of land, one cow, and a poor little horse, yet they had a franchar (42 lb.) of wheat, and three chickens, to pay as a quit-rent to one Seigneur; and four franchar of oats, one chicken and 1f. to pay to another, besides very heavy tailles and other taxes. She had seven children, and the cow's milk helped to make the soup."
+     ],
+     "gloss": "Seigneur = a noble lord. Quit-rent = a feudal due paid to a lord. Tailles = the main royal tax."
+    },
+    {
+     "label": "1C",
+     "title": "A village cahier",
+     "kind": "primary",
+     "cite": "From a parish cahier de doleances (list of grievances), written by a Third Estate village assembly in spring 1789 for the Estates-General. English translation from Liberty, Equality, Fraternity: Exploring the French Revolution (Roy Rosenzweig Center for History and New Media), from Pierre Goubert and Michel Denis, 1789: Les Francais ont la parole (1964).",
+     "text": [
+      "If the nobility commands the army, the Third Estate makes it up. If nobility pours a drop of blood, the Third Estate spreads rivers of it. The nobility empties the royal treasury, the Third Estate fills it up."
+     ]
+    }
+   ],
+   "sourcing": {
+    "id": "w1s",
+    "q": "Source 1B was written by an Englishman and published in 1792, three years after the Revolution began. Explain one way the author's point of view or the date of publication affects how a historian can use this source as evidence of peasant life before 1789."
+   }
+  },
+  {
+   "id": "w2",
+   "tab": "Wave 2: The Money",
+   "short": "The Money",
+   "context": [
+    "You saw the start of this story in Unit 5.3. France borrowed heavily to fight the <b>Seven Years' War</b> and then borrowed about <b>1.3 billion livres</b> more to help the Americans win their revolution. Unlike Britain, France had no national bank, so lenders charged it higher interest.",
+    "By 1786 the finance minister, Calonne, told Louis XVI the kingdom was on the edge of <b>bankruptcy</b>. The obvious fix was to tax the privileged orders, but they refused (you will see how in Wave 5)."
+   ],
+   "sources": [
+    {
+     "label": "2A",
+     "title": "Where the king's money went",
+     "kind": "data",
+     "cite": "Annual spending by the French monarchy under Louis XVI, as given in your textbook (McKay, Chapter 19). 1788 totals and total debt from J.-P. Jessenne, Revolution et Empire, 1783 to 1815 (1993).",
+     "table": [
+      [
+       "Spending category",
+       "Share of royal spending"
+      ],
+      [
+       "Interest payments on the national debt",
+       "about 50%"
+      ],
+      [
+       "The army and navy",
+       "about 25%"
+      ],
+      [
+       "The royal family and the court at Versailles",
+       "about 6%"
+      ],
+      [
+       "Everything else (roads, administration, and so on)",
+       "less than 20%"
+      ]
+     ],
+     "after": "In 1788 the crown took in about 503 million livres and spent about 632 million. Its total debt was about 4,000 million (4 billion) livres."
+    },
+    {
+     "label": "2B",
+     "title": "Why the American war mattered twice",
+     "kind": "background",
+     "cite": "Summary for this activity, based on your Unit 5.3 lesson and your textbook.",
+     "text": [
+      "French support for the American Revolution (1778 to 1783) added to the debt. It also sent thousands of French officers, including the Marquis de Lafayette, home with first-hand experience of a successful revolution against a king. The war cost France money, and it gave French readers a living example of the ideas they had been reading about."
+     ]
+    }
+   ],
+   "sourcing": {
+    "id": "w2s",
+    "q": "Many French people blamed Queen Marie Antoinette's spending for the crisis. Using Source 2A, explain whether the numbers support that popular view."
+   }
+  },
+  {
+   "id": "w3",
+   "tab": "Wave 3: The Bread",
+   "short": "The Bread",
+   "context": [
+    "Most French people lived on bread. In July 1788 a huge <b>hailstorm</b> destroyed crops across northern France, and the winter of 1788 to 1789 was one of the coldest of the century. Grain was scarce, and <b>bread prices</b> nearly doubled.",
+    "When families spent everything on bread, they stopped buying other goods, so workshops laid off workers. By July 1789, perhaps 150,000 of the 600,000 people in Paris were <b>unemployed</b>."
+   ],
+   "sources": [
+    {
+     "label": "3A",
+     "title": "The price of a four-pound loaf in Paris",
+     "kind": "data",
+     "cite": "Figures from historian Simon Schama, Citizens: A Chronicle of the French Revolution (1989). A family of four needed two of these loaves a day. A manual laborer earned 20 to 30 sous a day.",
+     "table": [
+      [
+       "Date",
+       "Price of one four-pound loaf",
+       "Cost of two loaves (one day for a family of four)"
+      ],
+      [
+       "Summer 1787",
+       "8 sous",
+       "16 sous"
+      ],
+      [
+       "October 1788",
+       "12 sous",
+       "24 sous"
+      ],
+      [
+       "February 1789",
+       "15 sous",
+       "30 sous"
+      ]
+     ],
+     "chart": [
+      [
+       "Summer 1787",
+       8
+      ],
+      [
+       "Oct. 1788",
+       12
+      ],
+      [
+       "Feb. 1789",
+       15
+      ]
+     ]
+    },
+    {
+     "label": "3B",
+     "title": "The peasant woman, continued",
+     "kind": "primary",
+     "cite": "Arthur Young, Travels in France (1792), the same conversation as Source 1B, July 12, 1789. Young ends with her own words in French.",
+     "text": [
+      "It was said, at present, that something was to be done by some great folks for such poor ones, but she did not know who nor how, but God send us better, car les tailles & les droits nous ecrasent."
+     ],
+     "gloss": "The French at the end means: for the taxes and the feudal dues are crushing us."
+    }
+   ],
+   "sourcing": {
+    "id": "w3s",
+    "q": "Using Source 3A, calculate what share of a laborer's daily wage (20 to 30 sous) two loaves cost in February 1789. Then explain why a short-term crisis like this might push people to act when long-term unfairness alone had not."
+   }
+  },
+  {
+   "id": "w4",
+   "tab": "Wave 4: The Ideas",
+   "short": "The Ideas",
+   "context": [
+    "In Unit 4 you met the philosophes. By the 1780s their ideas had spread through salons, coffeehouses, pamphlets, and the new <b>public sphere</b>. Educated members of the Third Estate had learned to ask whether privilege and absolute rule made sense at all.",
+    "In early 1789, as elections for the Estates-General began, the clergyman <b>Abbe Sieyes</b> published the most famous pamphlet of the Revolution."
+   ],
+   "sources": [
+    {
+     "label": "4A",
+     "title": "Rousseau, The Social Contract",
+     "kind": "primary",
+     "cite": "Jean-Jacques Rousseau, The Social Contract (1762), Book I, chapters 1 and 4, and Book III, chapter 1. Translated by G. D. H. Cole (1913). The book was banned in France and Geneva when it appeared.",
+     "text": [
+      "Man is born free; and everywhere he is in chains.",
+      "Since no man has a natural authority over his fellow, and force creates no right, we must conclude that conventions form the basis of all legitimate authority among men.",
+      "We have seen that the legislative power belongs to the people, and can belong to it alone."
+     ],
+     "gloss": "Conventions = agreements made by people. Legitimate = rightful. Legislative power = the power to make laws."
+    },
+    {
+     "label": "4B",
+     "title": "Sieyes, What Is the Third Estate?",
+     "kind": "primary",
+     "cite": "Emmanuel-Joseph Sieyes, a clergyman, What Is the Third Estate? Pamphlet published in January 1789, while deputies to the Estates-General were being chosen.",
+     "text": [
+      "What is the Third Estate? Everything. What has it been until now in the political order? Nothing. What does it ask? To become something.",
+      "The Third Estate demands: that its representatives be chosen only from among citizens who really belong to the Third Estate; that its deputies be equal in number to those of the two privileged orders; and that the Estates-General vote not by order, but by head."
+     ]
+    },
+    {
+     "label": "4C",
+     "title": "A town cahier",
+     "kind": "primary",
+     "cite": "Cahier (list of grievances) of the Third Estate of Versailles, spring 1789, article 22. Translated by Merrick Whitcombe, Typical Cahiers of 1789 (1898).",
+     "text": [
+      "Since all Frenchmen receive the same advantage from the government and are equally interested in its maintenance, they ought to be placed upon the same footing in the matter of taxation."
+     ]
+    }
+   ],
+   "sourcing": {
+    "id": "w4s",
+    "q": "Compare Sources 4A and 4C. Explain one way the cahier's demand reflects an Enlightenment idea, and one way its purpose is different from Rousseau's."
+   }
+  },
+  {
+   "id": "w5",
+   "tab": "Wave 5: The King and 1789",
+   "short": "The King and 1789",
+   "context": [
+    "Louis XVI was an absolute monarch, but he could not simply order new taxes. The <b>parlements</b> (royal law courts run by nobles) had to register new laws, and they refused. In 1787 an <b>Assembly of Notables</b> rejected Calonne's plan for a land tax on everyone. In 1788 the Parlement of Paris demanded that only the <b>Estates-General</b>, which had not met since 1614, could approve new taxes. Out of options, Louis called it."
+   ],
+   "sources": [
+    {
+     "label": "5A",
+     "title": "The road to revolution, 1787 to 1789",
+     "kind": "background",
+     "cite": "Timeline for this activity, based on your textbook (McKay, Chapter 19).",
+     "table": [
+      [
+       "Date",
+       "Event"
+      ],
+      [
+       "1787",
+       "The Assembly of Notables refuses Calonne's land tax. Calonne is dismissed."
+      ],
+      [
+       "August 1788",
+       "Facing bankruptcy, Louis XVI calls the Estates-General for May 1789."
+      ],
+      [
+       "May 5, 1789",
+       "The Estates-General opens at Versailles. The Third Estate demands voting by head, not by order. Weeks of deadlock follow."
+      ],
+      [
+       "June 17, 1789",
+       "The Third Estate declares itself the National Assembly."
+      ],
+      [
+       "June 20, 1789",
+       "Locked out of their hall, the deputies swear the Tennis Court Oath: they will not separate until France has a constitution."
+      ],
+      [
+       "July 11 to 14, 1789",
+       "Louis dismisses the popular minister Necker and moves troops toward Paris. On July 14, a Paris crowd storms the Bastille, looking for gunpowder."
+      ]
+     ]
+    },
+    {
+     "label": "5B",
+     "title": "Tocqueville on reform",
+     "kind": "secondary",
+     "cite": "Alexis de Tocqueville, a French political writer, The Old Regime and the Revolution (1856), Book II, chapter 16. Translated by Henry Reeve. Tocqueville studied royal archives and records from before 1789.",
+     "text": [
+      "It is not always by going from bad to worse that a country falls into a revolution. . . . [E]xperience has shown that the most dangerous moment for a bad government is usually that when it enters upon the work of reform. Nothing short of great political genius can save a sovereign . . . who undertakes to relieve his subjects after a long period of oppression."
+     ],
+     "gloss": "Sovereign = a ruler. Relieve = ease the burden on."
+    }
+   ],
+   "sourcing": {
+    "id": "w5s",
+    "q": "Tocqueville (Source 5B) argues that revolutions often come when a bad government starts to reform, not when things are at their worst. Using Source 5A, explain whether the events of 1787 to 1789 support his argument."
+   }
+  }
+ ],
+ "exit": {
+  "title": "Summative Exit Ticket",
+  "skill": "Skill 3.C: Compare the arguments or main ideas of two sources",
+  "prompt": "Compare the arguments of the village cahier (Source 1C) and Tocqueville (Source 5B) about what caused the French Revolution. Then use your final points to answer: which cause mattered most?",
+  "parts": [
+   "a. Describe the main argument of each source about why France reached a revolution.",
+   "b. Explain one reason their arguments are different. Consider who wrote each source, when, and why.",
+   "c. Which cause got the most of your points at the end? Support your choice with evidence from two different waves."
+  ],
+  "strong": [
+   "States each source's argument in your own words.",
+   "Uses the authors' situations (a village assembly in 1789; a historian in 1856) to explain the difference.",
+   "Names your top cause and backs it up with specific evidence from two waves (a number, a quote, or an event).",
+   "Uses the vocabulary of the Key Concept: long-term, short-term, social, political, fiscal, economic."
+  ]
+ }
+};
+const KEY = "u54-why1789-v1";
+const STAGES = ["g"].concat(C.waves.map(w => w.id));   // g, w1..w5
+const NTAB = STAGES.length + 2;                          // start + stages + results
+const RES = NTAB - 1;
+let store = { p:{}, a:{}, reached:0, view:0 };
+function load() { try { const t = localStorage.getItem(KEY); if (t) store = Object.assign(store, JSON.parse(t)); } catch (e) {} }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
+function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+function stageOfTab(i) { return i >= 1 && i <= STAGES.length ? STAGES[i - 1] : null; }
+function prevStage(st) { const k = STAGES.indexOf(st); return k > 0 ? STAGES[k - 1] : null; }
+function pts(st) {
+  if (!store.p[st]) {
+    const pr = prevStage(st);
+    store.p[st] = {};
+    C.causes.forEach(c => store.p[st][c.id] = pr && store.p[pr] ? store.p[pr][c.id] : 20);
+  }
+  return store.p[st];
+}
+function total(st) { const p = store.p[st]; if (!p) return null; return C.causes.reduce((s, c) => s + (+p[c.id] || 0), 0); }
+function reasonId(st) { return st + "r"; }
+
+/* ---------- build panels ---------- */
+function sourceHTML(s) {
+  let body = "";
+  if (s.text) body += `<div class="txt">${s.text.map(p => `<p>${esc(p)}</p>`).join("")}</div>`;
+  if (s.table) {
+    body += `<table><thead><tr>${s.table[0].map(h => `<th scope="col">${esc(h)}</th>`).join("")}</tr></thead><tbody>${s.table.slice(1).map(r => `<tr>${r.map((c, j) => j === 0 ? `<th scope="row">${esc(c)}</th>` : `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+  }
+  if (s.chart) {
+    const max = 16, W = 420, H = 150, bw = 80;
+    const bars = s.chart.map((d, k) => { const h = d[1] / max * 100, x = 50 + k * 120; return `<rect x="${x}" y="${120 - h}" width="${bw}" height="${h}" fill="#c0761f"></rect><text x="${x + bw / 2}" y="${114 - h}" text-anchor="middle" font-size="13" font-weight="700" fill="#23303d">${d[1]} sous</text><text x="${x + bw / 2}" y="138" text-anchor="middle" font-size="12.5" fill="#4a5866">${esc(d[0])}</text>`; }).join("");
+    body += `<div class="mini"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Bar chart of bread prices: ${s.chart.map(d => d[0] + " " + d[1] + " sous").join(", ")}"><line x1="40" y1="120" x2="${W - 10}" y2="120" stroke="#c8cfd6"></line>${bars}</svg></div>`;
+  }
+  if (s.after) body += `<div class="after">${esc(s.after)}</div>`;
+  if (s.gloss) body += `<div class="gloss">${esc(s.gloss)}</div>`;
+  const wide = s.table && s.table[0].length > 3 || s.label === "5A";
+  return `<div class="source ${wide ? "wide" : ""}"><div class="lab">Source ${esc(s.label)}</div><div class="ttl">${esc(s.title)}</div><div class="cite">${esc(s.cite)}</div>${body}</div>`;
+}
+function weighHTML(st, first) {
+  const rows = C.causes.map(c => `<div class="crow" style="--c:${c.color}">
+      <div class="nm">${esc(c.long)}<small>${esc(c.kind)}</small></div>
+      <button data-adj="${st}|${c.id}|-5" aria-label="Take 5 points from ${esc(c.name)}">&minus;</button>
+      <input type="number" min="0" max="100" step="5" data-pt="${st}|${c.id}" aria-label="Points for ${esc(c.name)}">
+      <button data-adj="${st}|${c.id}|5" aria-label="Add 5 points to ${esc(c.name)}">+</button>
+      <div class="trk" aria-hidden="true"><div class="fil" id="fil_${st}_${c.id}"></div></div>
+      <div class="was" id="was_${st}_${c.id}"></div>
+    </div>`).join("");
+  return `<div class="weigh"><h3>${first ? "Make your first prediction" : "Weigh the causes again"}</h3>
+    <div class="hint">${first ? "Split 100 points across the five causes, based only on what you know right now. More points means a bigger cause." : "Move points if this wave changed your mind. It is fine to leave them where they are, but you still have to explain why."} Points must add up to exactly 100.</div>
+    ${rows}<div class="total" id="tot_${st}" aria-live="polite"></div></div>`;
+}
+function copyBlock(id, label) {
+  return `<div class="row"><button class="btn brass" data-copy="${id}" aria-label="${esc(label)}">${esc(label)}</button><span class="status" id="st${id}"></span></div>
+    <div class="fallback" id="fb${id}" aria-label="Your work to copy"></div>`;
+}
+function nextBlock(i) {
+  const label = i + 1 === RES ? "Next: See your results" : `Next: ${tabLabel(i + 1)}`;
+  return `<div class="next"><span class="gate" id="gate${i}"></span><button class="btn" data-go="${i + 1}" id="next${i}">${esc(label)}</button></div>`;
+}
+function buildPanels() {
+  const m = document.getElementById("main");
+  let h = `<section class="panel intro" data-i="0">
+    <div class="year">Before you start</div><h2>What caused the French Revolution?</h2>
+    <p>Historians agree on a list of causes. They argue about which ones mattered most. Today you will make that call yourself, and you will change your mind as the evidence comes in.</p>
+    <ul>
+      <li><b>First,</b> split 100 points across five causes based on what you already know.</li>
+      <li><b>Then work through five waves of evidence.</b> Each wave has a short context and real sources. After each wave, move your points if the evidence changed your mind, explain what you moved and why, and answer one sourcing question.</li>
+      <li><b>Type your answers.</b> Pasting into the answer boxes is turned off.</li>
+      <li><b>At the end of each tab,</b> press the copy button and paste into that tab's box in your Google Doc.</li>
+      <li><b>The last tab</b> shows how your thinking changed. Then you will write the exit ticket in your Google Doc.</li>
+    </ul>
+    <p><b>Guiding question:</b> Which mattered more in 1789, long-term problems or short-term crises?</p>
+    <div class="next"><button class="btn" data-go="1">Start: Make your first prediction</button></div></section>`;
+  // first guess
+  h += `<section class="panel" data-i="1"><div class="year">Step 1</div><h2>Your first prediction</h2>
+    <p>The AP course description sums up the causes of the French Revolution in one sentence:</p>
+    <div class="kc">${esc(C.kc)}</div>
+    <p>That sentence names five causes. Here they are in plain language:</p>
+    <ul>${C.causes.map(c => `<li><b>${esc(c.long)}</b> (${esc(c.kind)})</li>`).join("")}</ul>
+    ${weighHTML("g", true)}
+    <div class="qs"><div class="q"><label for="gr">Why did you give your top cause the most points? Use anything you already know from class or your reading.</label><textarea id="gr" data-a="gr"></textarea></div></div>
+    ${copyBlock("g", "Copy my first prediction")}${nextBlock(1)}</section>`;
+  C.waves.forEach((w, k) => {
+    const i = k + 2;
+    h += `<section class="panel" data-i="${i}"><div class="year">Wave ${k + 1} of ${C.waves.length}</div><h2>${esc(w.short)}</h2>
+      <div class="context">${w.context.map(p => `<p>${p}</p>`).join("")}</div>
+      <div class="sources">${w.sources.map(sourceHTML).join("")}</div>
+      ${weighHTML(w.id, false)}
+      <div class="qs">
+        <div class="q"><label for="${w.id}r">What did you move, and why? Name at least one source by its label (for example, ${esc(w.sources[0].label)}). If you moved nothing, explain why this evidence did not change your mind.</label><textarea id="${w.id}r" data-a="${w.id}r"></textarea></div>
+        <div class="q"><label for="${w.sourcing.id}">Sourcing question: ${esc(w.sourcing.q)}</label><textarea id="${w.sourcing.id}" data-a="${w.sourcing.id}"></textarea></div>
+      </div>
+      ${copyBlock(w.id, "Copy my work for this wave")}${nextBlock(i)}</section>`;
+  });
+  h += `<section class="panel" data-i="${RES}"><div class="year">Results</div><h2>How your thinking changed</h2>
+    <p>Each line shows one cause. Follow it from your first prediction to your final weighting.</p>
+    <div class="chartbox"><div id="lineChart"></div><div class="legend">${C.causes.map(c => `<span style="--c:${c.color}">${esc(c.long)}</span>`).join("")}</div></div>
+    <h3 style="margin-top:14px">Your final weighting</h3><div class="rank" id="rank"></div>
+    <div class="qs"><div class="q"><label for="resr">Look at your chart. Which cause changed the most from your first prediction to the end, and what evidence changed it?</label><textarea id="resr" data-a="resr"></textarea></div></div>
+    ${copyBlock("res", "Copy my results")}
+    <div class="final"><h3>Now write your exit ticket</h3>
+      <p>Paste your results into the Results box in your Google Doc. Then open the <b>Summative Exit Ticket</b> tab and complete it there. You will compare two sources from today (the village cahier, 1C, and Tocqueville, 5B) and defend your top cause with evidence from two different waves.</p></div>
+    </section>`;
+  m.innerHTML = h;
+}
+
+/* ---------- points ---------- */
+function renderPts(st) {
+  const p = pts(st), pr = prevStage(st);
+  C.causes.forEach(c => {
+    const inp = document.querySelector(`[data-pt="${st}|${c.id}"]`); if (!inp) return;
+    if (document.activeElement !== inp) inp.value = p[c.id];
+    document.getElementById(`fil_${st}_${c.id}`).style.width = Math.min(100, p[c.id]) + "%";
+    const was = document.getElementById(`was_${st}_${c.id}`);
+    if (pr && store.p[pr]) { const d = p[c.id] - store.p[pr][c.id]; was.textContent = d === 0 ? `was ${store.p[pr][c.id]}` : `was ${store.p[pr][c.id]} (${d > 0 ? "+" : ""}${d})`; }
+  });
+  const t = total(st), el = document.getElementById("tot_" + st);
+  el.textContent = t === 100 ? "Total: 100. Ready." : `Total: ${t}. ${t > 100 ? "Take away " + (t - 100) : "Add " + (100 - t)} to reach 100.`;
+  el.className = "total " + (t === 100 ? "good" : "bad");
+  updateGate();
+}
+function setPt(st, id, v) { v = Math.max(0, Math.min(100, Math.round(+v || 0))); pts(st)[id] = v; save(); renderPts(st); renderTabs(); }
+
+/* ---------- gating ---------- */
+function stageDone(st) { return total(st) === 100 && (store.a[reasonId(st)] || "").trim().length >= 15; }
+function tabDone(i) { const st = stageOfTab(i); if (!st) return false; const w = C.waves.find(x => x.id === st); return stageDone(st) && (!w || (store.a[w.sourcing.id] || "").trim().length > 0); }
+function updateGate() {
+  for (let i = 1; i <= STAGES.length; i++) {
+    const b = document.getElementById("next" + i), g = document.getElementById("gate" + i); if (!b) continue;
+    const st = stageOfTab(i), w = C.waves.find(x => x.id === st);
+    let msg = "";
+    if (total(st) !== 100) msg = "Your points must total 100.";
+    else if ((store.a[reasonId(st)] || "").trim().length < 15) msg = "Explain what you moved and why.";
+    else if (w && !(store.a[w.sourcing.id] || "").trim()) msg = "Answer the sourcing question.";
+    b.disabled = !!msg; g.textContent = msg;
+  }
+}
+function tabLabel(i) { if (i === 0) return "Start"; if (i === 1) return "First prediction"; if (i === RES) return "Results"; return C.waves[i - 2].tab; }
+function renderTabs() {
+  const t = document.getElementById("tabs");
+  if (t.children.length !== NTAB) { const out = []; for (let i = 0; i < NTAB; i++) out.push(`<button data-tab="${i}" aria-label="${esc(tabLabel(i))}">${esc(tabLabel(i))}</button>`); t.innerHTML = out.join(""); }
+  [...t.children].forEach((b, i) => { b.classList.toggle("active", i === store.view); b.classList.toggle("done", tabDone(i)); b.disabled = i > store.reached; });
+}
+function show(i) {
+  if (i > store.reached) store.reached = i;
+  store.view = i;
+  const st = stageOfTab(i); if (st) { pts(st); renderPts(st); }
+  save(); renderTabs();
+  document.querySelectorAll(".panel").forEach(p => p.classList.toggle("active", +p.dataset.i === i));
+  if (i === RES) renderResults();
+  window.scrollTo(0, 0);
+}
+
+/* ---------- results ---------- */
+function renderResults() {
+  const W = 680, H = 300, L = 44, Rr = 20, T = 16, B = 40, n = STAGES.length;
+  const x = k => L + k * (W - L - Rr) / (n - 1), y = v => T + (1 - v / 100) * (H - T - B);
+  let g = "";
+  [0, 25, 50, 75, 100].forEach(v => { g += `<line x1="${L}" y1="${y(v)}" x2="${W - Rr}" y2="${y(v)}" stroke="#e3e7eb"></line><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end" font-size="12" fill="#4a5866">${v}</text>`; });
+  STAGES.forEach((st, k) => { g += `<text x="${x(k)}" y="${H - 14}" text-anchor="middle" font-size="12" fill="#4a5866">${k === 0 ? "First guess" : "Wave " + k}</text>`; });
+  C.causes.forEach(c => {
+    const vals = STAGES.map(st => (store.p[st] || {})[c.id]);
+    const ptsStr = vals.map((v, k) => v === undefined ? null : `${x(k)},${y(v)}`).filter(Boolean).join(" ");
+    g += `<polyline points="${ptsStr}" fill="none" stroke="${c.color}" stroke-width="3"></polyline>`;
+    vals.forEach((v, k) => { if (v !== undefined) g += `<circle cx="${x(k)}" cy="${y(v)}" r="4.5" fill="${c.color}"></circle>`; });
+  });
+  const summary = C.causes.map(c => `${c.name}: ${STAGES.map(st => (store.p[st] || {})[c.id] ?? "-").join(", ")}`).join("; ");
+  document.getElementById("lineChart").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Line chart of your points by stage. ${esc(summary)}">${g}</svg>`;
+  const last = store.p[STAGES[n - 1]] || pts(STAGES[n - 1]);
+  const sorted = C.causes.slice().sort((a, b) => last[b.id] - last[a.id]);
+  document.getElementById("rank").innerHTML = sorted.map(c => `<div class="r" style="--c:${c.color}"><div class="l">${esc(c.long)}</div><div class="t"><div class="f" style="width:${Math.max(last[c.id], 4)}%">${last[c.id]}</div></div></div>`).join("");
+}
+
+/* ---------- copy ---------- */
+function ptsLine(st) {
+  const p = pts(st), pr = prevStage(st);
+  return C.causes.map(c => { const d = pr && store.p[pr] ? p[c.id] - store.p[pr][c.id] : null; return `${c.long}: ${p[c.id]}${d === null || d === 0 ? "" : ` (${d > 0 ? "+" : ""}${d})`}`; }).join("\n");
+}
+function ans(id) { return (store.a[id] || "").trim() || "(no answer yet)"; }
+function L(label, answer) { return { label, answer: String(answer ?? "").trim() || "(no answer yet)" }; }
+function ptsLines(st) {
+  const p = pts(st), pr = prevStage(st);
+  return C.causes.map(c => { const d = pr && store.p[pr] ? p[c.id] - store.p[pr][c.id] : null; return L(c.long + ": ", `${p[c.id]}${d === null || d === 0 ? "" : ` (${d > 0 ? "+" : ""}${d})`}`); });
+}
+function buildCopy(which) {
+  let out = [];
+  if (which === "g") {
+    out.push({ head: "FIRST PREDICTION" }, { label: "My points:" }, ...ptsLines("g"), L("Why my top cause got the most points: ", store.a.gr));
+  } else if (which === "res") {
+    out.push({ head: "MY RESULTS" }, { label: "Cause: " + STAGES.map((s, k) => k === 0 ? "First guess" : "Wave " + k).join(" | ") });
+    C.causes.forEach(c => out.push(L(c.long + ": ", STAGES.map(st => (store.p[st] || {})[c.id] ?? "-").join(" | "))));
+    out.push(L("Which cause changed the most, and why: ", store.a.resr));
+  } else {
+    const k = C.waves.findIndex(w => w.id === which), w = C.waves[k];
+    out.push({ head: `WAVE ${k + 1}: ${w.short.toUpperCase()}` }, { label: "My points (change from last wave):" }, ...ptsLines(w.id),
+      L("What I moved and why: ", store.a[w.id + "r"]), L("Sourcing question: " + w.sourcing.q + " ", store.a[w.sourcing.id]));
+  }
+  const html = out.map(o => o.head ? `<p><u>${esc(o.head)}</u></p>` : o.answer === undefined ? `<p>${esc(o.label)}</p>` : `<p>${esc(o.label)}<b>${esc(o.answer).replace(/\n/g, "<br>")}</b></p>`).join("");
+  const text = out.map(o => o.head || (o.label + (o.answer === undefined ? "" : o.answer))).join("\n");
+  return { html, text };
+}
+function copyOut(which) {
+  const { html, text } = buildCopy(which);
+  const status = document.getElementById("st" + which), box = document.getElementById("fb" + which);
+  function ok() { status.textContent = "Copied. Paste into your doc."; setTimeout(() => status.textContent = "", 4000); }
+  function tryExec() {
+    let done = false;
+    const h = e => { try { e.clipboardData.setData("text/html", html); e.clipboardData.setData("text/plain", text); e.preventDefault(); done = true; } catch (err) {} };
+    document.addEventListener("copy", h, { once: true });
+    try { document.execCommand("copy"); } catch (e) {}
+    document.removeEventListener("copy", h);
+    if (done) ok();
+    return done;
+  }
+  function manual() {
+    box.innerHTML = `<div style="font-size:13px;font-weight:600">Select everything in this box and copy it (Cmd+C or Ctrl+C), then paste into your doc.</div><div class="copyarea">${html}</div>`;
+    box.classList.add("visible");
+    const r = document.createRange(); r.selectNodeContents(box.querySelector(".copyarea"));
+    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    status.textContent = "Select and copy below.";
+  }
+  if (navigator.clipboard && window.ClipboardItem && navigator.clipboard.write) {
+    try {
+      const item = new ClipboardItem({ "text/html": new Blob([html], { type: "text/html" }), "text/plain": new Blob([text], { type: "text/plain" }) });
+      navigator.clipboard.write([item]).then(ok).catch(() => { if (!tryExec()) manual(); });
+    } catch (e) { if (!tryExec()) manual(); }
+  } else if (!tryExec()) manual();
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.tab !== undefined) { show(+b.dataset.tab); return; }
+  if (b.dataset.go !== undefined) { if (!b.disabled) show(+b.dataset.go); return; }
+  if (b.dataset.adj !== undefined) { const [st, id, d] = b.dataset.adj.split("|"); setPt(st, id, pts(st)[id] + +d); return; }
+  if (b.dataset.copy !== undefined) { copyOut(b.dataset.copy); return; }
+});
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.dataset.pt) { const [st, id] = t.dataset.pt.split("|"); setPt(st, id, t.value); return; }
+  if (t.dataset.a) { store.a[t.dataset.a] = t.value; save(); updateGate(); renderTabs(); }
+});
+document.addEventListener("change", e => { const t = e.target; if (t.dataset.pt) { const [st] = t.dataset.pt.split("|"); renderPts(st); } });
+/* ---------- no pasting: students must type ---------- */
+function blockPaste(e) {
+  const t = e.target;
+  if (!t || !t.dataset || !t.dataset.a) return;
+  e.preventDefault();
+  let n = t.parentElement.querySelector(".nopaste");
+  if (!n) { n = document.createElement("div"); n.className = "nopaste"; n.setAttribute("role", "status"); t.parentElement.appendChild(n); }
+  n.textContent = "Pasting is turned off. Type your answer in your own words.";
+  clearTimeout(n._t); n._t = setTimeout(() => n.textContent = "", 4000);
+}
+["paste", "drop"].forEach(ev => document.addEventListener(ev, blockPaste, true));
+document.addEventListener("beforeinput", e => { if (e.inputType && /^insertFrom(Paste|Drop)/.test(e.inputType)) blockPaste(e); }, true);
+let armed = false;
+document.getElementById("clearBtn").addEventListener("click", () => {
+  const m = document.getElementById("clearMsg");
+  if (!armed) { armed = true; m.textContent = "Press again to erase everything on this computer."; setTimeout(() => { armed = false; m.textContent = ""; }, 5000); return; }
+  armed = false; m.textContent = "Cleared."; store = { p:{}, a:{}, reached:0, view:0 }; save();
+  document.querySelectorAll("[data-a]").forEach(el => el.value = ""); show(0);
+});
+
+load(); buildPanels();
+document.querySelectorAll("[data-a]").forEach(el => { if (store.a[el.dataset.a] !== undefined) el.value = store.a[el.dataset.a]; });
+show(Math.min(store.view, store.reached));
+</script>
+</body>
+</html>
