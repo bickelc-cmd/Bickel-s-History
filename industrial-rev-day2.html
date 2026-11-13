@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Industrialization: Winners, Losers, and the Cost</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --soot:#2b2d30;
+  --iron:#4a5058;
+  --steel:#8a929b;
+  --rule:#cfd3d6;
+  --paper:#f6f4ef;
+  --card:#ffffff;
+  --amber:#b8741a;
+  --amber-soft:#f6e7cf;
+  --ink:#24262a;
+  --good:#2f6b3a;
+  --bad:#8a3324;
+  --focus:#2f6fb0;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:15px;line-height:1.5}
+.wrap{max-width:1040px;margin:0 auto;padding:18px 18px 40px}
+header.top{background:var(--soot);color:#fff;padding:18px 22px;border-radius:8px}
+header.top .kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#d9c8ab;font-weight:600}
+header.top h1{font-family:"Libre Baskerville",Georgia,serif;font-size:26px;margin:4px 0 2px}
+header.top p{margin:0;color:#e3e5e8}
+.banner{margin:12px 0;background:var(--amber-soft);border:1px solid #e2c697;border-radius:6px;padding:10px 14px;font-size:14px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.banner button{flex:none}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+nav.tabs button{font:inherit;font-weight:600;font-size:14px;padding:9px 14px;border-radius:6px;border:1px solid var(--rule);background:var(--card);color:var(--iron);cursor:pointer}
+nav.tabs button[aria-selected="true"]{background:var(--iron);color:#fff;border-color:var(--iron)}
+nav.tabs button.done::after{content:" \2713";color:var(--amber)}
+section.tab{display:none}
+section.tab.active{display:block}
+h2{font-family:"Libre Baskerville",Georgia,serif;font-size:22px;margin:6px 0 8px;color:var(--soot)}
+h3{font-family:"Libre Baskerville",Georgia,serif;font-size:17px;margin:22px 0 8px;color:var(--amber)}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:16px 18px;margin:12px 0}
+.directions{border-left:0;background:#eef0f2}
+.q{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:14px 16px;margin:12px 0}
+.q label,.q .prompt{display:block;font-weight:600;margin-bottom:8px}
+textarea,input[type=text],select{font:inherit;width:100%;border:1px solid var(--steel);border-radius:6px;padding:8px 10px;background:#fff;color:var(--ink)}
+textarea{min-height:70px;resize:vertical}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+button.btn{font:inherit;font-weight:600;padding:9px 16px;border-radius:6px;border:1px solid var(--iron);background:var(--iron);color:#fff;cursor:pointer}
+button.btn.alt{background:#fff;color:var(--iron)}
+button.btn.small{padding:5px 10px;font-size:13px}
+.clipbox{margin:6px 0 10px}
+.clipbox .player{position:relative;width:100%;max-width:560px;aspect-ratio:16/9;background:#000;border-radius:6px;overflow:hidden;margin-top:8px}
+.clipbox iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.clipnote{font-size:13px;color:var(--iron);margin-left:8px}
+.reading{background:#fbf8f1;border:1px solid #e6dcc6;border-radius:8px;padding:16px 20px;font-size:15.5px}
+.reading h4{font-family:"Libre Baskerville",Georgia,serif;margin:12px 0 6px;font-size:16px}
+.reading p{margin:0 0 10px}
+.terms{display:grid;grid-template-columns:180px 1fr;gap:0;border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:#fff}
+.terms div{padding:8px 12px;border-bottom:1px solid var(--rule)}
+.terms div:nth-child(odd){font-weight:700;background:#eef0f2}
+.grid2{display:grid;grid-template-columns:1fr 170px;gap:10px;align-items:start}
+table.nums{width:100%;border-collapse:collapse;background:#fff}
+table.nums th,table.nums td{border:1px solid var(--rule);padding:8px;text-align:left}
+table.nums th{background:#eef0f2;font-size:14px}
+table.nums input{min-width:70px}
+ol.order{list-style:none;padding:0;margin:0}
+ol.order li{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:8px 10px;margin:6px 0}
+ol.order li .num{font-weight:700;color:var(--amber);width:22px}
+ol.order li .txt{flex:1}
+ol.order li.right{border-color:var(--good);background:#eef6ef}
+ol.order li.wrong{border-color:var(--bad);background:#f8ecea}
+.copyrow{margin:22px 0 8px;padding:14px 16px;background:var(--soot);color:#fff;border-radius:8px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.copyrow .btn{background:var(--amber);border-color:var(--amber)}
+.status{font-weight:600;color:#ffd99a}
+.fallback{display:none;margin-top:10px;background:#fff;color:var(--ink);border-radius:6px;padding:10px;max-height:260px;overflow:auto;width:100%}
+.fallback.visible{display:block}
+.pastewarn{display:none;color:var(--bad);font-size:13px;margin-top:4px}
+.pastewarn.show{display:block}
+.exit{background:var(--soot);color:#fff;border-radius:8px;padding:24px}
+.exit h2{color:#fff}
+.exit a{color:#ffd99a}
+.feedback{font-weight:600;margin-top:8px}
+a{color:#1d5ea8}
+@media (max-width:760px){.grid2{grid-template-columns:1fr}.terms{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="kicker">World History and Geography | Chapter 25.2</div>
+  <h1>Industrialization: Winners, Losers, and the Cost</h1>
+  <p>Unit Question: Did the Industrial Revolution make life better, and for whom?</p>
+</header>
+
+<div class="banner">
+  <span>Your work saves on this computer and browser only (not another device, not incognito, not if browsing data is cleared). Your Google Doc is the real backup: copy and paste at the end of every tab.</span>
+  <button class="btn alt small" id="clearBtn" aria-label="Clear all my answers">Clear my answers</button>
+</div>
+
+<nav class="tabs" role="tablist" aria-label="Activity tabs">
+  <button role="tab" data-tab="start" aria-selected="true">Start Here</button>
+  <button role="tab" data-tab="a1" aria-selected="false">1. Video Notes</button>
+  <button role="tab" data-tab="a2" aria-selected="false">2. Guided Reading 25.2</button>
+  <button role="tab" data-tab="a3" aria-selected="false">3. Reading the Numbers</button>
+  <button role="tab" data-tab="a4" aria-selected="false">4. The Global Cost</button>
+  <button role="tab" data-tab="et" aria-selected="false">Exit Ticket</button>
+</nav>
+
+<!-- START -->
+<section class="tab active" id="tab-start" role="tabpanel">
+  <h2>Start Here</h2>
+  <div class="card">
+    <p><b>Learning Intention:</b> We are learning how the factory system changed the way people lived and worked, who gained and who lost, and how British factories depended on enslaved labor overseas.</p>
+    <p><b>Success Criteria:</b></p>
+    <ul>
+      <li>I can describe how life changed for different groups of people in industrial Britain.</li>
+      <li>I can read graphs to explain how fast industry and cities grew.</li>
+      <li>I can explain how enslaved labor in the Americas was connected to British factories.</li>
+      <li>I can use key terms like urbanization, middle class, and child labor correctly.</li>
+    </ul>
+  </div>
+  <div class="card directions">
+    <p><b>How this works:</b></p>
+    <ol>
+      <li><b>Open</b> your Google Doc answer sheet next to this page.</li>
+      <li><b>Work through</b> tabs 1 to 4 in order. Type your answers in the boxes. (Pasting is turned off, so type it yourself.)</li>
+      <li>At the bottom of each tab, <b>click the copy button</b> and <b>paste</b> into the matching tab of your Google Doc. Your answers will show up in bold.</li>
+      <li>Do the <b>Exit Ticket in your Google Doc</b>, not on this site.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ACTIVITY 1 -->
+<section class="tab" id="tab-a1" role="tabpanel" data-title="Activity 1: Video Notes">
+  <h2>Activity 1: Video Notes</h2>
+  <div class="card directions">Each question has its own short clip from the Crash Course video. <b>Play the clip</b>, then <b>answer</b>. Short phrases are fine.</div>
+  <div id="videoQs"></div>
+  <div class="copyrow">
+    <button class="btn" data-copy="a1" aria-label="Copy Activity 1 answers">Copy Activity 1 to my Google Doc</button>
+    <span class="status" id="status-a1" aria-live="polite"></span>
+    <div class="fallback" id="fb-a1" contenteditable="true" aria-label="Copy this text"></div>
+  </div>
+</section>
+
+<!-- ACTIVITY 2 -->
+<section class="tab" id="tab-a2" role="tabpanel" data-title="Activity 2: Guided Reading 25.2">
+  <h2>Activity 2: Guided Reading 25.2</h2>
+  <div class="card directions">
+    Read pages 723 to 728, <i>Industrialization: Case Study Manchester</i>. For each group, <b>write the facts</b> you find about how their lives changed. Then <b>decide</b>: better, worse, or mixed?<br>
+    <a href="https://kami.app/m5lEBV8LUB8c" target="_blank" rel="noopener">Textbook 25.2 (Kami)</a> |
+    <a href="https://drive.google.com/file/d/1G18v5Nnvuah0A6esLhHaFh9zF9BkmCtg/view?usp=sharing" target="_blank" rel="noopener">PDF if Kami won't load</a> |
+    <a href="https://docs.google.com/document/d/1jDMosFT3h3TpOjej25LPcNoGZ0m91zJG_SnkYjAr638/edit?usp=sharing" target="_blank" rel="noopener">Easier supplemental reading</a>
+  </div>
+  <h3>Key Terms</h3>
+  <div class="terms">
+    <div>Urbanization</div><div>City building and the movement of people to cities (p. 723).</div>
+    <div>Middle class</div><div>A social class of skilled workers, professionals, businesspeople, and wealthy farmers (p. 725).</div>
+    <div>Child labor</div><div>Children working jobs, often long hours in dangerous places, for very low pay.</div>
+    <div>Social mobility</div><div>The ability to move up (or down) from one social class to another.</div>
+  </div>
+  <h3 class="cp-head">Better or Worse?</h3>
+  <div id="groups"></div>
+  <h3 class="cp-head">Long-Term Effects and Quick Facts</h3>
+  <div id="facts"></div>
+  <div class="copyrow">
+    <button class="btn" data-copy="a2" aria-label="Copy Activity 2 answers">Copy Activity 2 to my Google Doc</button>
+    <span class="status" id="status-a2" aria-live="polite"></span>
+    <div class="fallback" id="fb-a2" contenteditable="true" aria-label="Copy this text"></div>
+  </div>
+</section>
+
+<!-- ACTIVITY 3 -->
+<section class="tab" id="tab-a3" role="tabpanel" data-title="Activity 3: Reading the Numbers">
+  <h2>Activity 3: Reading the Numbers</h2>
+  <div class="card directions">Historians use graphs to see how fast things changed. <b>Open the textbook graphs</b> and <b>answer</b>. Estimates are fine for Part A.</div>
+  <h3 class="cp-head">Part A: British Cotton Consumption, 1800 to 1900</h3>
+  <p>Find the graph on page 719 of <a href="https://kami.app/BmC4wj2ZShjz" target="_blank" rel="noopener">Textbook 25.1 (Kami)</a>.</p>
+  <div id="cotton"></div>
+  <h3 class="cp-head">Part B: Growth of Cities, 1800 to 1870</h3>
+  <p>Find the Growth of Cities graphs on page 727 of <a href="https://kami.app/m5lEBV8LUB8c" target="_blank" rel="noopener">Textbook 25.2 (Kami)</a>. Populations are in thousands.</p>
+  <div class="card" style="overflow-x:auto">
+    <table class="nums">
+      <thead><tr><th>City</th><th>1800 (thousands)</th><th>1870 (thousands)</th><th>About how many times bigger?</th></tr></thead>
+      <tbody id="cityRows"></tbody>
+    </table>
+  </div>
+  <div id="cityQs"></div>
+  <div class="copyrow">
+    <button class="btn" data-copy="a3" aria-label="Copy Activity 3 answers">Copy Activity 3 to my Google Doc</button>
+    <span class="status" id="status-a3" aria-live="polite"></span>
+    <div class="fallback" id="fb-a3" contenteditable="true" aria-label="Copy this text"></div>
+  </div>
+</section>
+
+<!-- ACTIVITY 4 -->
+<section class="tab" id="tab-a4" role="tabpanel" data-title="Activity 4: The Global Cost">
+  <h2>Activity 4: The Global Cost</h2>
+  <div class="card directions">Yesterday you followed cotton from the Americas to Manchester. This reading looks at the people who grew it. <b>Read</b>, then <b>answer</b>.</div>
+  <div class="reading">
+    <h4>Cotton: From the Fields to the Factories</h4>
+    <p>Manchester's mills ran on cotton. But cotton won't grow in Britain's cool, wet weather. So where did it come from?</p>
+    <p>By the early 1800s, most of Britain's cotton came from plantations in the <b>American South</b>, where enslaved people planted and picked it. In 1793, Eli Whitney invented the <b>cotton gin</b>, a machine that cleaned seeds out of cotton much faster. Now planters could sell all the cotton they could grow, so they wanted more land and more enslaved workers. American cotton production jumped from 1.5 million pounds in 1790 to 85 million pounds in 1810. By 1830, roughly 2 million people were enslaved in the United States.</p>
+    <p>Life on a cotton plantation was brutal. Enslaved people worked from sunrise to sunset, often under the threat of the whip. Families could be sold apart at any time. Enslaved people were bought and sold as property, as if they weren't human. Treating people as less than human is called <b>dehumanization</b>.</p>
+    <p>Here's the connection. Bales of cotton were shipped across the Atlantic to <b>Liverpool</b>. Then they traveled by canal, and later by railroad, to the mills of <b>Manchester</b>. Workers there, including children, spun and wove the cotton into cloth. Britain sold that cloth all over the world. Cheap cotton clothing made life better for millions of people. But it was built on the <b>exploitation</b> of enslaved people an ocean away.</p>
+    <p>Britain banned the slave trade in 1807 and ended slavery in most of its colonies in 1833. Even so, British mills kept buying cotton grown by enslaved people in the United States until the American Civil War in the 1860s. Other raw materials for British industry, like sugar and some metals, also came from enslaved or forced workers.</p>
+    <h4>The African Diaspora</h4>
+    <p>The slave trade scattered millions of Africans and their descendants across the Americas, Europe, and beyond. This forced scattering is called the <b>African Diaspora</b>. In Africa, many communities lost generations of young people, and countless families were torn apart forever. Their histories were often erased.</p>
+    <p>In the Americas, enslaved Africans and their descendants built much of the wealth of places like Haiti, Barbados, and the United States. They also brought farming knowledge, music, art, religion, and food that still shape life in the Americas today. Many countries, from the United States to Brazil, have large populations of African descent.</p>
+  </div>
+  <div id="costQs"></div>
+  <h3 class="cp-head">Put It in Order</h3>
+  <p>Use the arrows to put the steps in order, from the cotton field to the store. Then click <b>Check my order</b>.</p>
+  <ol class="order" id="orderList" aria-label="Steps to put in order"></ol>
+  <p><button class="btn alt small" id="checkOrder">Check my order</button> <span class="feedback" id="orderFb" aria-live="polite"></span></p>
+  <div class="copyrow">
+    <button class="btn" data-copy="a4" aria-label="Copy Activity 4 answers">Copy Activity 4 to my Google Doc</button>
+    <span class="status" id="status-a4" aria-live="polite"></span>
+    <div class="fallback" id="fb-a4" contenteditable="true" aria-label="Copy this text"></div>
+  </div>
+</section>
+
+<!-- EXIT TICKET -->
+<section class="tab" id="tab-et" role="tabpanel">
+  <div class="exit">
+    <h2>Exit Ticket</h2>
+    <p>Go to the <b>Exit Ticket tab in your Google Doc</b> and answer the three questions there. Type your answers right in the Doc. There's nothing to type on this site.</p>
+    <p>Before you go, make sure you pasted Activities 1, 2, 3, and 4 into your Google Doc.</p>
+  </div>
+</section>
+
+</div>
+
+<script>
+var STORE = "bickel-industrial-day2-v1";
+var VID = "zjK7PWmRRyg";
+
+var VIDEO_QS = [
+  {k:"v1", s:484, e:521, q:"1. Name two ways enslaved people's labor kept British industry running."},
+  {k:"v2", s:521, e:583, q:"2. What made James Watt's steam engine better than earlier ones? What kinds of power did steam replace?"},
+  {k:"v3", s:583, e:618, q:"3. Railroads created jobs beyond conductors and ticket sellers. Name three other jobs that grew in railway towns."},
+  {k:"v4", s:618, e:682, q:"4. Who were the bourgeoisie? Who were the proletariat (working class)? Who was in the middle class?"},
+  {k:"v5", s:682, e:729, q:"5. What work did the 18-year-old in the coal mine do? At what age did she start?"},
+  {k:"v6", s:729, e:770, q:"6. What was the \"angel in the household\" idea about women?"},
+  {k:"v7", s:818, e:874, q:"7. Who were the Luddites, and what did they do? How did workers later fight for better conditions instead?"},
+  {k:"v8", s:874, e:914, q:"8. How much did Manchester grow? Describe living conditions there."}
+];
+var GROUPS = [
+  ["g1","1. Poor city dwellers (p. 724)"],
+  ["g2","2. Factory workers (p. 725)"],
+  ["g3","3. Children (p. 724 to 728)"],
+  ["g4","4. Wealthy merchants, factory owners, and shippers (p. 725 to 726)"],
+  ["g5","5. Lower middle class: factory overseers and skilled workers (p. 725)"],
+  ["g6","6. Large landowners and aristocrats (p. 725)"]
+];
+var FACTS = [
+  ["f7","7. (p. 728) What did industry do to Manchester's environment?"],
+  ["f8","8. (p. 726) How did the Industrial Revolution expand education?"],
+  ["f9","9. (p. 724) In 1842, what was the average life span for working-class people in one large city? In a nearby rural area?"],
+  ["f10","10. (p. 726) Alexis de Tocqueville said of Manchester, \"From this filthy sewer pure gold flows.\" What did he mean?"],
+  ["f11","11. (p. 728) What did the Factory Act of 1819 do?"],
+  ["f12","12. How is urbanization connected to industrialization? How is the growth of the middle class connected to it?"]
+];
+var COTTON = [
+  ["c1","1. About how much cotton did Britain use in 1800? About how much in 1900? (in thousands of metric tons)"],
+  ["c2","2. In which 10 years did cotton use jump the most?"],
+  ["c3","3. (p. 719) Where did this cotton come from?"]
+];
+var CITIES = ["Manchester","Birmingham","Glasgow","London"];
+var CITYQS = [
+  ["n4","4. Which city grew the fastest (the most times bigger)? Which city added the most people?"],
+  ["n5","5. (p. 724) Cities grew with no plans, sanitary codes, or building codes. Name two problems this caused."]
+];
+var COST = [
+  ["k1","1. Why couldn't Britain grow its own cotton? Where did most of it come from?"],
+  ["k2","2. How did the cotton gin change cotton farming in the American South?"],
+  ["k3","3. What does dehumanization mean? Give one example from the reading."],
+  ["k4","4. What is the African Diaspora?"],
+  ["k5","5. Name two ways Africans and their descendants shaped the Americas."]
+];
+var STEPS = [
+  "Enslaved people plant and pick cotton in the American South.",
+  "Ships carry the cotton across the Atlantic to Liverpool.",
+  "The cotton travels by canal or railroad to Manchester.",
+  "Factory workers, including children, spin and weave the cotton into cloth.",
+  "The cloth is sold in Britain and around the world."
+];
+var START_ORDER = [4,0,2,1,3];
+
+function el(tag, attrs, html){
+  var x = document.createElement(tag);
+  if (attrs) for (var a in attrs) x.setAttribute(a, attrs[a]);
+  if (html != null) x.innerHTML = html;
+  return x;
+}
+function fmt(s){ return Math.floor(s/60) + ":" + ("0" + (s%60)).slice(-2); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+var state = {};
+function load(){ try { state = JSON.parse(localStorage.getItem(STORE) || "{}") || {}; } catch(e){ state = {}; } }
+function save(){ try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e){} }
+
+function qBlock(key, prompt, parent){
+  var d = el("div", {"class":"q"});
+  var id = "f-" + key;
+  d.appendChild(el("label", {"for":id}, esc(prompt)));
+  var t = el("textarea", {"id":id, "data-key":key, "data-label":prompt, "aria-label":prompt});
+  d.appendChild(t);
+  d.appendChild(el("div", {"class":"pastewarn", "id":"pw-"+key}, "Pasting is turned off. Type your answer."));
+  parent.appendChild(d);
+  return d;
+}
+
+function build(){
+  var vq = document.getElementById("videoQs");
+  VIDEO_QS.forEach(function(v){
+    var d = qBlock(v.k, v.q, vq);
+    var cb = el("div", {"class":"clipbox"});
+    var b = el("button", {"class":"btn alt small", "type":"button", "aria-label":"Play clip for question " + v.k.slice(1)}, "Play clip (" + fmt(v.s) + " to " + fmt(v.e) + ")");
+    var note = el("span", {"class":"clipnote"}, "If the clip won't play, <a target=\"_blank\" rel=\"noopener\" href=\"https://www.youtube.com/watch?v=" + VID + "&t=" + v.s + "s\">open it on YouTube</a> and stop at " + fmt(v.e) + ".");
+    b.addEventListener("click", function(){
+      if (cb.querySelector(".player")) return;
+      var p = el("div", {"class":"player"});
+      p.appendChild(el("iframe", {"src":"https://www.youtube.com/embed/" + VID + "?start=" + v.s + "&end=" + v.e + "&rel=0&autoplay=1",
+        "title":"Crash Course clip " + fmt(v.s) + " to " + fmt(v.e), "allow":"autoplay; encrypted-media; picture-in-picture", "allowfullscreen":"", "referrerpolicy":"strict-origin-when-cross-origin"}));
+      cb.appendChild(p);
+      b.textContent = "Clip loaded (" + fmt(v.s) + " to " + fmt(v.e) + "). Use the player to replay.";
+    });
+    cb.appendChild(b); cb.appendChild(note);
+    d.insertBefore(cb, d.querySelector("textarea"));
+  });
+
+  var g = document.getElementById("groups");
+  GROUPS.forEach(function(x){
+    var d = el("div", {"class":"q"});
+    d.appendChild(el("div", {"class":"prompt"}, esc(x[1])));
+    var row = el("div", {"class":"grid2"});
+    var t = el("textarea", {"id":"f-"+x[0], "data-key":x[0], "data-label":x[1] + ": What changed for them?", "aria-label":x[1] + " what changed", "placeholder":"Facts from the reading"});
+    var s = el("select", {"id":"f-"+x[0]+"r", "data-key":x[0]+"r", "data-label":x[1] + ": Better, worse, or mixed?", "aria-label":x[1] + " better worse or mixed"},
+      "<option value=\"\">Choose one</option><option>Better</option><option>Worse</option><option>Mixed</option>");
+    row.appendChild(t); row.appendChild(s); d.appendChild(row);
+    d.appendChild(el("div", {"class":"pastewarn", "id":"pw-"+x[0]}, "Pasting is turned off. Type your answer."));
+    g.appendChild(d);
+  });
+  var f = document.getElementById("facts"); FACTS.forEach(function(x){ qBlock(x[0], x[1], f); });
+  var c = document.getElementById("cotton"); COTTON.forEach(function(x){ qBlock(x[0], x[1], c); });
+  var rows = document.getElementById("cityRows");
+  CITIES.forEach(function(city, i){
+    var tr = el("tr");
+    tr.appendChild(el("td", null, "<b>" + city + "</b>"));
+    [["a","1800 population"],["b","1870 population"],["x","times bigger"]].forEach(function(col){
+      var key = "city" + i + col[0];
+      var td = el("td");
+      td.appendChild(el("input", {"type":"text", "id":"f-"+key, "data-key":key, "data-label":city + ", " + col[1], "aria-label":city + " " + col[1]}));
+      tr.appendChild(td);
+    });
+    rows.appendChild(tr);
+  });
+  var cq = document.getElementById("cityQs"); CITYQS.forEach(function(x){ qBlock(x[0], x[1], cq); });
+  var k = document.getElementById("costQs"); COST.forEach(function(x){ qBlock(x[0], x[1], k); });
+}
+
+function orderNow(){ return (state._order && state._order.length === 5) ? state._order.slice() : START_ORDER.slice(); }
+function renderOrder(marks){
+  var ol = document.getElementById("orderList"); ol.innerHTML = "";
+  var ord = orderNow();
+  ord.forEach(function(stepIdx, pos){
+    var li = el("li");
+    if (marks) li.className = (stepIdx === pos) ? "right" : "wrong";
+    li.appendChild(el("span", {"class":"num"}, String(pos+1)));
+    li.appendChild(el("span", {"class":"txt"}, esc(STEPS[stepIdx])));
+    var up = el("button", {"class":"btn alt small", "type":"button", "aria-label":"Move up: " + STEPS[stepIdx]}, "&#9650;");
+    var dn = el("button", {"class":"btn alt small", "type":"button", "aria-label":"Move down: " + STEPS[stepIdx]}, "&#9660;");
+    up.disabled = pos === 0; dn.disabled = pos === 4;
+    up.addEventListener("click", function(){ move(pos, -1); });
+    dn.addEventListener("click", function(){ move(pos, 1); });
+    li.appendChild(up); li.appendChild(dn);
+    ol.appendChild(li);
+  });
+}
+function move(pos, dir){
+  var ord = orderNow(); var j = pos + dir;
+  var t = ord[pos]; ord[pos] = ord[j]; ord[j] = t;
+  state._order = ord; delete state._orderChecked; save(); renderOrder(false);
+  document.getElementById("orderFb").textContent = "";
+}
+
+function restore(){
+  document.querySelectorAll("[data-key]").forEach(function(f){
+    var v = state[f.getAttribute("data-key")];
+    if (v != null) f.value = v;
+  });
+}
+function wire(){
+  document.querySelectorAll("textarea[data-key], input[data-key], select[data-key]").forEach(function(f){
+    var ev = f.tagName === "SELECT" ? "change" : "input";
+    f.addEventListener(ev, function(){ state[f.getAttribute("data-key")] = f.value; save(); });
+    if (f.tagName !== "SELECT"){
+      var warn = function(e){
+        e.preventDefault();
+        var w = document.getElementById("pw-" + f.getAttribute("data-key").replace(/r$/,""));
+        if (w){ w.classList.add("show"); setTimeout(function(){ w.classList.remove("show"); }, 3500); }
+      };
+      f.addEventListener("paste", warn);
+      f.addEventListener("drop", warn);
+    }
+  });
+  document.querySelectorAll("nav.tabs button").forEach(function(b){
+    b.addEventListener("click", function(){ showTab(b.getAttribute("data-tab")); });
+  });
+  document.querySelectorAll("[data-copy]").forEach(function(b){
+    b.addEventListener("click", function(){ copyTab(b.getAttribute("data-copy")); });
+  });
+  document.getElementById("checkOrder").addEventListener("click", function(){
+    var ord = orderNow(); var right = ord.filter(function(s,i){ return s === i; }).length;
+    state._orderChecked = right; save();
+    renderOrder(true);
+    document.getElementById("orderFb").textContent = right === 5 ? "All 5 in the right order. Nice work." : right + " of 5 in the right spot. Keep moving them.";
+  });
+  document.getElementById("clearBtn").addEventListener("click", function(){
+    if (!confirm("Clear ALL your answers on this site? This can't be undone. (Your Google Doc is not affected.)")) return;
+    state = {}; save();
+    document.querySelectorAll("[data-key]").forEach(function(f){ f.value = ""; });
+    renderOrder(false); document.getElementById("orderFb").textContent = "";
+    markDone();
+  });
+}
+function showTab(id){
+  document.querySelectorAll("nav.tabs button").forEach(function(b){ b.setAttribute("aria-selected", b.getAttribute("data-tab") === id ? "true" : "false"); });
+  document.querySelectorAll("section.tab").forEach(function(s){ s.classList.toggle("active", s.id === "tab-" + id); });
+  state._tab = id; save();
+  window.scrollTo(0, 0);
+}
+function markDone(){
+  ["a1","a2","a3","a4"].forEach(function(id){
+    var b = document.querySelector("nav.tabs button[data-tab=\"" + id + "\"]");
+    if (b) b.classList.toggle("done", !!(state._copied && state._copied[id]));
+  });
+}
+
+function collect(tabId){
+  var sec = document.getElementById("tab-" + tabId);
+  var title = sec.getAttribute("data-title");
+  var html = ["<p><b><u>" + esc(title) + "</u></b></p>"], text = [title, ""];
+  var nodes = sec.querySelectorAll(".cp-head, [data-key]");
+  nodes.forEach(function(n){
+    if (n.classList.contains("cp-head")){
+      html.push("<p><u>" + esc(n.textContent) + "</u></p>"); text.push(n.textContent.toUpperCase());
+      if (n.textContent === "Put It in Order") {
+        var ord = orderNow();
+        var items = ord.map(function(s,i){ return (i+1) + ". " + STEPS[s]; });
+        html.push("<p>My order:<br><b>" + items.map(esc).join("<br>") + "</b></p>");
+        text.push("My order:"); items.forEach(function(x){ text.push("  " + x); });
+        if (state._orderChecked != null){ html.push("<p>Checked: <b>" + state._orderChecked + " of 5 in the right spot</b></p>"); text.push("Checked: " + state._orderChecked + " of 5 in the right spot"); }
+        text.push("");
+      }
+      return;
+    }
+    var label = n.getAttribute("data-label");
+    var v = (n.value || "").trim();
+    var shown = v ? v : "(no answer)";
+    html.push("<p>" + esc(label) + "<br><b>" + esc(shown).replace(/\n/g, "<br>") + "</b></p>");
+    text.push(label); text.push(shown); text.push("");
+  });
+  if (tabId === "a4" && !sec.querySelector(".cp-head-done")) { /* order block handled at its heading */ }
+  return {html: html.join(""), text: text.join("\n")};
+}
+
+function copyTab(tabId){
+  var out = collect(tabId);
+  var status = document.getElementById("status-" + tabId);
+  var box = document.getElementById("fb-" + tabId);
+  function ok(){
+    status.textContent = "Copied. Paste into the " + document.getElementById("tab-" + tabId).getAttribute("data-title").split(":")[0] + " tab of your Google Doc.";
+    state._copied = state._copied || {}; state._copied[tabId] = true; save(); markDone();
+    setTimeout(function(){ status.textContent = ""; }, 6000);
+  }
+  function tryExec(){
+    var done = false;
+    var handler = function(e){ e.clipboardData.setData("text/html", out.html); e.clipboardData.setData("text/plain", out.text); e.preventDefault(); done = true; };
+    document.addEventListener("copy", handler);
+    try { document.execCommand("copy"); } catch(e) {}
+    document.removeEventListener("copy", handler);
+    return done;
+  }
+  function manual(){
+    box.innerHTML = out.html; box.classList.add("visible"); box.focus();
+    var r = document.createRange(); r.selectNodeContents(box);
+    var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    status.textContent = "Press Cmd+C (or Ctrl+C) to copy the highlighted text, then paste it into your Google Doc.";
+  }
+  try {
+    if (navigator.clipboard && window.ClipboardItem && navigator.clipboard.write){
+      var item = new ClipboardItem({"text/html": new Blob([out.html], {type:"text/html"}), "text/plain": new Blob([out.text], {type:"text/plain"})});
+      navigator.clipboard.write([item]).then(ok).catch(function(){ if (tryExec()) ok(); else manual(); });
+      return;
+    }
+  } catch(e) {}
+  if (tryExec()) ok(); else manual();
+}
+
+load(); build(); restore(); renderOrder(false); wire(); markDone();
+if (state._tab) showTab(state._tab);
+</script>
+</body>
+</html>
